@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Context;
+using Serilog;
 
 namespace FresherManagement.Api
 {
@@ -30,7 +31,6 @@ namespace FresherManagement.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
-
             //User Manager Service
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
             services.AddIdentityDbContext(Configuration);
@@ -51,6 +51,8 @@ namespace FresherManagement.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FresherManagement.Api v1"));
             }
+
+            app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
 
