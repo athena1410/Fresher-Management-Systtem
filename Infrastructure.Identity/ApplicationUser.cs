@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using Application.Core.Entities;
+﻿using Application.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 
 namespace Infrastructure.Identity
 {

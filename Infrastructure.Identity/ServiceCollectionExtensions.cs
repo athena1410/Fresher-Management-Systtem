@@ -7,7 +7,7 @@ namespace Infrastructure.Identity
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddIdentityDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIdentityDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<IdentityContext>(options =>
             {
@@ -18,6 +18,7 @@ namespace Infrastructure.Identity
             });
 
             services.AddScoped(typeof(DbContext), typeof(IdentityContext));
+            return services;
         }
     }
 }
