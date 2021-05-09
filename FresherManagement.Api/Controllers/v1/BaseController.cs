@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Ardalis.GuardClauses;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FresherManagement.Api.Controllers
+namespace FresherManagement.Api.Controllers.v1
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [Produces("application/json")]
+    [ApiVersion("1.0")]
     public class BaseController : ControllerBase
     {
         private IMediator _mediator;

@@ -1,9 +1,12 @@
+using System.Text.Json;
 using Application.Core;
+using FresherManagement.Api.Infrastructures;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,30 +33,43 @@ namespace FresherManagement.Api
             services.AddIdentityDbContext(Configuration);
 
             services.AddApplicationServices();
+            services.AddCustomApiVersioning();
+            services.AddCustomSwagger();
 
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddCustomCors(Configuration);
+
+            // Configure enforce lowercase routing
+            services.AddRouting(options => options.LowercaseUrls = true);
+
+            // Add Newtonsoft.Json-based JSON format support and the default formatting is camelCase
+            services.AddControllers().AddNewtonsoftJson().AddJsonOptions(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FresherManagement.Api", Version = "v1" });
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FresherManagement.Api v1"));
+            }
+            else
+            {
+                app.UseHsts();
             }
 
+            app.UseForwardedHeaders();
+            app.UseDefaultFiles();
             app.UseSerilogRequestLogging();
+            app.UseCustomSwagger(provider);
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
