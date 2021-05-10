@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Application.Core.Interfaces.Persistence
+namespace Application.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

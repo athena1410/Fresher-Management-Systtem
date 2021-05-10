@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20210509081158_initial-asp-identity")]
-    partial class initialaspidentity
+    [Migration("20210510100453_initial-dbcontext")]
+    partial class initialdbcontext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,7 +22,7 @@ namespace Infrastructure.Identity.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Application.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("Application.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -255,7 +255,7 @@ namespace Infrastructure.Identity.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("Application.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("Application.Domain.Entities.RefreshToken", b =>
                 {
                     b.HasOne("Infrastructure.Identity.ApplicationUser", null)
                         .WithMany("RefreshTokens")

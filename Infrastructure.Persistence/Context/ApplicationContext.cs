@@ -1,15 +1,18 @@
-﻿using Application.Core.Interfaces.Persistence;
+﻿using Application.Core.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core.Interfaces;
+using Application.Domain.Entities;
 
 namespace Infrastructure.Persistence.Context
 {
     public class ApplicationContext : DbContext, IUnitOfWork
     {
+        public const string DEFAULT_SCHEMA = "dbo";
         private IDbContextTransaction _currentTransaction;
         public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
@@ -19,10 +22,16 @@ namespace Infrastructure.Persistence.Context
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         { }
 
+        public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Location> Locations { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            modelBuilder.HasSequence<int>("CandidateSequence").StartsAt(1).IncrementsBy(1);
         }
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()

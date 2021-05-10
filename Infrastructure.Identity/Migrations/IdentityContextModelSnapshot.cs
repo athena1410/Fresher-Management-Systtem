@@ -20,7 +20,7 @@ namespace Infrastructure.Identity.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Application.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("Application.Domain.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -253,7 +253,7 @@ namespace Infrastructure.Identity.Migrations
                     b.ToTable("UserTokens");
                 });
 
-            modelBuilder.Entity("Application.Core.Entities.RefreshToken", b =>
+            modelBuilder.Entity("Application.Domain.Entities.RefreshToken", b =>
                 {
                     b.HasOne("Infrastructure.Identity.ApplicationUser", null)
                         .WithMany("RefreshTokens")

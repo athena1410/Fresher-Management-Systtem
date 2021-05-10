@@ -14,7 +14,6 @@ namespace Infrastructure.Identity
                 options.UseSqlServer(
                     configuration.GetConnectionString("Identity"),
                     b => b.MigrationsAssembly(typeof(IdentityContext).Assembly.GetName().Name));
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             services.AddScoped(typeof(DbContext), typeof(IdentityContext));
