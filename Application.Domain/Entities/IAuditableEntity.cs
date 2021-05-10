@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Core.Interfaces
+namespace Application.Domain.Entities
 {
     public interface IAuditableEntity
     {

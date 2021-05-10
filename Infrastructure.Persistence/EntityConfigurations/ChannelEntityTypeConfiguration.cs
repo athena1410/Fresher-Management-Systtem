@@ -5,14 +5,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.EntityConfigurations
 {
-    public class ClassEntityTypeConfiguration : IEntityTypeConfiguration<Class>
+    public class ChannelEntityTypeConfiguration : IEntityTypeConfiguration<Channel>
     {
-        public void Configure(EntityTypeBuilder<Class> builder)
+        public void Configure(EntityTypeBuilder<Channel> builder)
         {
-            builder.ToTable("Classes", ApplicationContext.DEFAULT_SCHEMA);
+            builder.ToTable("Channels", ApplicationContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(o => o.Id);
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
+
+            builder.Property(x => x.ChannelName)
+                .HasMaxLength(50)
+                .IsRequired();
 
             builder.Property(x => x.IsDeleted)
                 .HasColumnName("Deleted")
@@ -22,6 +26,10 @@ namespace Infrastructure.Persistence.EntityConfigurations
                 .HasColumnName("RowVersion")
                 .IsConcurrencyToken()
                 .IsRowVersion();
+             
+            builder.HasMany(x => x.Candidates)
+                .WithOne(c => c.Channel)
+                .HasForeignKey(c => c.ChannelId);
         }
     }
 }

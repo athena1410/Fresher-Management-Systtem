@@ -12,8 +12,27 @@ namespace Infrastructure.Persistence.EntityConfigurations
             builder.ToTable("Candidates", ApplicationContext.DEFAULT_SCHEMA);
 
             builder.HasKey(o => o.Id);
-            builder.Property(o => o.Id)
-                .UseHiLo("CandidateSequence", ApplicationContext.DEFAULT_SCHEMA);
+            builder.Property(x => x.Id).UseIdentityColumn();
+
+            builder.Property(x => x.IsDeleted)
+                .HasColumnName("Deleted")
+                .HasDefaultValue(false);
+
+            builder.Property(x => x.RowVersion)
+                .HasColumnName("RowVersion")
+                .IsConcurrencyToken()
+                .IsRowVersion();
+
+            builder.HasMany(x => x.Interviews)
+                .WithOne(x => x.Candidate)
+                .HasForeignKey(x => x.CandidateId);
+
+            builder.HasOne(x => x.Offer)
+                .WithMany(x => x.Candidates)
+                .HasForeignKey(x => x.OfferId);
+
+            //builder.Property(o => o.Id)
+            //    .UseHiLo("CandidateSequence", ApplicationContext.DEFAULT_SCHEMA);
 
         }
     }

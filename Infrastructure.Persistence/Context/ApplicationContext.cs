@@ -25,6 +25,14 @@ namespace Infrastructure.Persistence.Context
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Channel> Channels { get; set; }
+        public DbSet<EntryTest> EntryTests { get; set; }
+        public DbSet<Faculty> Faculties { get; set; }
+        public DbSet<Interview> Interviews { get; set; }
+        public DbSet<Offer> Offers { get; set; }
+        public DbSet<Trainee> Trainees { get; set; }
+        public DbSet<University> Universities { get; set; }
+        public DbSet<TraineeCandidateProfile> TraineeCandidateProfiles { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

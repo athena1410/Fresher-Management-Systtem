@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.EntityConfigurations
 {
-    public class ClassEntityTypeConfiguration : IEntityTypeConfiguration<Class>
+    public class EntryTestEntityTypeConfiguration : IEntityTypeConfiguration<EntryTest>
     {
-        public void Configure(EntityTypeBuilder<Class> builder)
+        public void Configure(EntityTypeBuilder<EntryTest> builder)
         {
-            builder.ToTable("Classes", ApplicationContext.DEFAULT_SCHEMA);
+            builder.ToTable("EntryTests", ApplicationContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(o => o.Id);
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.IsDeleted)
@@ -22,6 +22,11 @@ namespace Infrastructure.Persistence.EntityConfigurations
                 .HasColumnName("RowVersion")
                 .IsConcurrencyToken()
                 .IsRowVersion();
+
+            builder.HasOne<Candidate>(x => x.Candidate)
+                .WithMany(x => x.EntryTests)
+                .HasForeignKey(x => x.CandidateId);
+
         }
     }
 }

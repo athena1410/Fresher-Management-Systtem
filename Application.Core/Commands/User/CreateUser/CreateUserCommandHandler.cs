@@ -1,9 +1,8 @@
-﻿using MediatR;
+﻿using Application.Core.Interfaces.Repositories;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Core.Interfaces.Repositories;
-using Application.Domain.Entities;
 
 namespace Application.Core.Commands.User.CreateUser
 {
@@ -21,13 +20,6 @@ namespace Application.Core.Commands.User.CreateUser
 
         public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var candidate = new Candidate
-            {
-                Name = "Toanmk"
-            };
-            await _candidateRepository.AddAsync(candidate);
-            _logger.LogError(candidate.Id.ToString());
-            await _candidateRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
             return await Task.FromResult(true);
         }
     }

@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.EntityConfigurations
 {
-    public class ClassEntityTypeConfiguration : IEntityTypeConfiguration<Class>
+    public class InterviewEntityTypeConfiguration : IEntityTypeConfiguration<Interview>
     {
-        public void Configure(EntityTypeBuilder<Class> builder)
+        public void Configure(EntityTypeBuilder<Interview> builder)
         {
-            builder.ToTable("Classes", ApplicationContext.DEFAULT_SCHEMA);
+            builder.ToTable("Interviews", ApplicationContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(o => o.Id);
+            builder.HasKey(ci => new {ci.CandidateId, ci.InterviewerId});
             builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.IsDeleted)
@@ -22,6 +22,11 @@ namespace Infrastructure.Persistence.EntityConfigurations
                 .HasColumnName("RowVersion")
                 .IsConcurrencyToken()
                 .IsRowVersion();
+
+            builder.HasOne(x => x.Candidate)
+                .WithMany(x => x.Interviews)
+                .HasForeignKey(x => x.CandidateId);
+
         }
     }
 }

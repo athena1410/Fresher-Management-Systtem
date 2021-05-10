@@ -5,14 +5,21 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.EntityConfigurations
 {
-    public class ClassEntityTypeConfiguration : IEntityTypeConfiguration<Class>
+    public class FacultyEntityTypeConfiguration : IEntityTypeConfiguration<Faculty>
     {
-        public void Configure(EntityTypeBuilder<Class> builder)
+        public void Configure(EntityTypeBuilder<Faculty> builder)
         {
-            builder.ToTable("Classes", ApplicationContext.DEFAULT_SCHEMA);
+            builder.ToTable("Faculties", ApplicationContext.DEFAULT_SCHEMA);
 
-            builder.HasKey(o => o.Id);
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
+
+            builder.Property(x => x.FacultyName)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            builder.Property(x => x.Acronym)
+                .HasMaxLength(10);
 
             builder.Property(x => x.IsDeleted)
                 .HasColumnName("Deleted")
