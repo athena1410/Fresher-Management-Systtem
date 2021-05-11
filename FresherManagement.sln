@@ -11,19 +11,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{A3CC0840-FAD7-4A8C-AA7F-B577BD212AFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Identity", "Infrastructure.Identity\Infrastructure.Identity.csproj", "{9E575986-F34D-47E1-9D4A-872CB8759E6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Identity", "Infrastructure.Identity\Infrastructure.Identity.csproj", "{9E575986-F34D-47E1-9D4A-872CB8759E6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Persistence", "Infrastructure.Persistence\Infrastructure.Persistence.csproj", "{39978567-1E87-49F3-A77E-49537349B953}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Persistence", "Infrastructure.Persistence\Infrastructure.Persistence.csproj", "{39978567-1E87-49F3-A77E-49537349B953}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Shared", "Infrastructure.Services\Infrastructure.Shared.csproj", "{6C8A546F-B761-48E7-A822-5A6ED4E25064}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Shared", "Infrastructure.Services\Infrastructure.Shared.csproj", "{6C8A546F-B761-48E7-A822-5A6ED4E25064}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{C7606028-8EBD-4E93-B809-CB425F53B3C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Core", "Application.Core\Application.Core.csproj", "{5131114D-4D3A-4475-9617-7D9A912D2286}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Core", "Application.Core\Application.Core.csproj", "{5131114D-4D3A-4475-9617-7D9A912D2286}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FresherManagement.Api", "FresherManagement.Api\FresherManagement.Api.csproj", "{F8681553-225D-4BF7-B16F-079B797AC4EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FresherManagement.Api", "FresherManagement.Api\FresherManagement.Api.csproj", "{F8681553-225D-4BF7-B16F-079B797AC4EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Domain", "Application.Domain\Application.Domain.csproj", "{CBEB294A-FAB9-4921-ADE7-7ED7DFED63EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Domain", "Application.Domain\Application.Domain.csproj", "{CBEB294A-FAB9-4921-ADE7-7ED7DFED63EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{00DACBD4-1B0C-429B-A1B3-37EECBD1E1B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SPA", "SPA", "{2C5ACAC4-CDA3-4ADC-9AD9-ED080FCF8D46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +73,8 @@ Global
 		{5131114D-4D3A-4475-9617-7D9A912D2286} = {C7606028-8EBD-4E93-B809-CB425F53B3C7}
 		{F8681553-225D-4BF7-B16F-079B797AC4EB} = {A3CC0840-FAD7-4A8C-AA7F-B577BD212AFC}
 		{CBEB294A-FAB9-4921-ADE7-7ED7DFED63EA} = {C7606028-8EBD-4E93-B809-CB425F53B3C7}
+		{00DACBD4-1B0C-429B-A1B3-37EECBD1E1B4} = {CD9F930B-28EA-4AB9-B716-F836E21B79F7}
+		{2C5ACAC4-CDA3-4ADC-9AD9-ED080FCF8D46} = {00DACBD4-1B0C-429B-A1B3-37EECBD1E1B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B6AFDED-99A6-46FD-9683-9DEA7DB45C47}
