@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Domain.Entities
 {
-    public class Trainee : Entity, IAuditableEntity
+    public class SupplierPartner : Entity, IAuditableEntity
     {
         public int ClassId { get; set; }
-        public int StatusId { get; set; }
-        public int StatusInClassId { get; set; }
+        public string SupplierPartnerName { get; set; }
         public string Remarks { get; set; }
 
         public DateTime CreatedDate { get; set; }
