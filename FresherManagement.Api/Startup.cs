@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Text.Json;
+using Infrastructure.Shared;
 
 namespace FresherManagement.Api
 {
@@ -28,15 +29,21 @@ namespace FresherManagement.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(Configuration);
+
             //User Manager Service
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>();
             services.AddIdentityDbContext(Configuration);
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>()
+                .AddDefaultTokenProviders();
+
             services.AddPersistenceDbContext(Configuration);
             services.AddRepositories();
             services.AddApplicationServices();
             services.AddCustomApiVersioning();
             services.AddCustomSwagger();
 
+            services.AddExternalServices();
             services.AddCustomCors(Configuration);
 
             // Configure enforce lowercase routing
@@ -63,7 +70,7 @@ namespace FresherManagement.Api
 
             app.UseForwardedHeaders();
             app.UseDefaultFiles();
-            app.UseSerilogRequestLogging();
+            //app.UseSerilogRequestLogging();
             app.UseCustomSwagger(provider);
 
             app.UseHttpsRedirection();

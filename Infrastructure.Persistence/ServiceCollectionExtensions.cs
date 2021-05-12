@@ -1,4 +1,5 @@
-﻿using Application.Core.Interfaces.Repositories;
+﻿using Application.Core.Interfaces;
+using Application.Core.Interfaces.Repositories;
 using Application.Domain.Entities;
 using Ardalis.Specification;
 using Infrastructure.Persistence.Context;
@@ -21,7 +22,7 @@ namespace Infrastructure.Persistence
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
-            services.AddScoped(typeof(DbContext), typeof(ApplicationContext));
+            services.AddScoped(typeof(IUnitOfWork), typeof(ApplicationContext));
             return services;
         }
 

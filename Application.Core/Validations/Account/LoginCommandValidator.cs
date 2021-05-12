@@ -1,11 +1,11 @@
-﻿using Application.Core.Commands.User.CreateUser;
+﻿using Application.Core.Commands.Account.Login;
 using FluentValidation;
 
-namespace Application.Core.Validations.User.CreateUser
+namespace Application.Core.Validations.Account
 {
-    public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+    public class LoginCommandValidator : AbstractValidator<LoginCommand>
     {
-        public CreateUserCommandValidator()
+        public LoginCommandValidator()
         {
             RuleFor(c => c.Email)
                 .NotNull()

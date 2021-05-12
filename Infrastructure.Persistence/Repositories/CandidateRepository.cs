@@ -13,7 +13,6 @@ namespace Infrastructure.Persistence.Repositories
         public CandidateRepository(ApplicationContext context, ILogger<CandidateRepository> logger) : base(context)
         {
             _logger = logger;
-            _logger.LogInformation("Xin chao cac ban");
         }
 
         public CandidateRepository(ApplicationContext context, ISpecificationEvaluator specificationEvaluator) : base(context, specificationEvaluator)

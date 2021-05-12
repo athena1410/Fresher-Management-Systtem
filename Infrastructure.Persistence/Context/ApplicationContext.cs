@@ -42,6 +42,8 @@ namespace Infrastructure.Persistence.Context
             modelBuilder.HasSequence<int>("CandidateSequence").StartsAt(1).IncrementsBy(1);
         }
 
+        public IExecutionStrategy CreateExecutionStrategy() => Database.CreateExecutionStrategy();
+
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
             if (_currentTransaction != null) return null;

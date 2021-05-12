@@ -7,6 +7,8 @@ namespace Application.Core.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
+        bool HasActiveTransaction { get; }
+        IExecutionStrategy CreateExecutionStrategy();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task<IDbContextTransaction> BeginTransactionAsync();
         Task CommitAsync(IDbContextTransaction transaction, CancellationToken cancellationToken = default);

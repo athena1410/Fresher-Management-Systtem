@@ -1,8 +1,8 @@
 ﻿using MediatR;
 
-namespace Application.Core.Commands.User.CreateUser
+namespace Application.Core.Commands.Account.Login
 {
-    public class CreateUserCommand : IRequest<bool>
+    public class LoginCommand : IRequest<bool>
     {
         public string Email { get; set; }
         public string Password { get; set; }

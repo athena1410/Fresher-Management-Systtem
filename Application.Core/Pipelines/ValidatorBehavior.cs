@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using Application.Core.Extensions;
+﻿using Application.Core.Extensions;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Domain.Exceptions;
 
-namespace Application.Core.Behaviors
+namespace Application.Core.Pipelines
 {
     public class ValidatorBehavior<TRequest, TResponse>
         : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
@@ -27,9 +26,9 @@ namespace Application.Core.Behaviors
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
 
-            var typeName = request.GetType().GetGenericTypeName();
+            var commandType = request.GetType().GetGenericTypeName();
 
-            _logger.LogInformation("----- Validating command {CommandType}", typeName);
+            _logger.LogInformation("----- Validating command {CommandType}", commandType);
 
             if (_validators.Any())
             {
@@ -44,9 +43,9 @@ namespace Application.Core.Behaviors
 
                 if (failures.Any())
                 {
-                    _logger.LogWarning("Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", typeName, request, failures);
+                    _logger.LogWarning("Validation errors - {CommandType} - Command: {@Command} - Errors: {@ValidationErrors}", commandType, request, failures);
 
-                    throw new DomainException(failures);
+                    throw new ValidationException(failures);
                 }
             }
 

@@ -1,4 +1,6 @@
-﻿using Infrastructure.Identity.Context;
+﻿using Application.Core.Interfaces.Services;
+using Infrastructure.Identity.Context;
+using Infrastructure.Identity.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ namespace Infrastructure.Identity
             });
 
             services.AddScoped(typeof(DbContext), typeof(IdentityContext));
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             return services;
         }
     }
