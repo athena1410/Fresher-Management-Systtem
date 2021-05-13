@@ -1,24 +1,42 @@
-﻿using Application.Core.Interfaces.Services;
+﻿using Application.Domain.Entities;
+using Application.Domain.Exceptions;
 using Common.Guard;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.Core.Commands.Account.ConfirmEmail
 {
-    public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, bool>
+    public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, Unit>
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<ConfirmEmailCommandHandler> _logger;
 
         public ConfirmEmailCommandHandler(
-            IAuthenticationService authenticationService)
+            UserManager<ApplicationUser> userManager,
+            ILogger<ConfirmEmailCommandHandler> logger)
         {
-            this._authenticationService = Guard.Null(authenticationService, nameof(authenticationService));
+            this._userManager = Guard.Null(userManager, nameof(userManager));
+            this._logger = Guard.Null(logger, nameof(logger));
         }
 
-        public async Task<bool> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
         {
-            return await _authenticationService.ConfirmEmailAsync(request.UserName, request.Code);
+            ApplicationUser user = await _userManager.FindByNameAsync(request.UserName);
+            if (user is null)
+            {
+                throw new NotFoundException($"Can't get user with UserName is {request.UserName}");
+            }
+
+            IdentityResult result = await _userManager.ConfirmEmailAsync(user, request.Code);
+            if (result.Succeeded)
+            {
+                return Unit.Value;
+            }
+            _logger.LogError($"An error occurred while processing confirm email with command {request}");
+            throw new DomainException(result.ToString());
         }
     }
 }

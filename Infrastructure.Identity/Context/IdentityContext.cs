@@ -8,7 +8,8 @@ namespace Infrastructure.Identity.Context
     public class IdentityContext : IdentityDbContext<ApplicationUser>
     {
         public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
-        { }
+        {
+        }
 
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 

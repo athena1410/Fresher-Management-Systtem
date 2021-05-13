@@ -17,6 +17,7 @@ namespace FresherManagement.Api
                     .ReadFrom.Configuration(context.Configuration)
                     .ReadFrom.Services(services)
                     .Enrich.FromLogContext()
+                    .MinimumLevel.Information()
                     .WriteTo.Console())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

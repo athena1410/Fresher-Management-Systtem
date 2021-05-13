@@ -1,8 +1,12 @@
 using Application.Core;
+using Application.Domain.Entities;
 using FresherManagement.Api.Infrastructures;
+using FresherManagement.Api.Services;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Context;
+using Infrastructure.Identity.Settings;
 using Infrastructure.Persistence;
+using Infrastructure.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,9 +14,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 using System.Text.Json;
-using Infrastructure.Shared;
 
 namespace FresherManagement.Api
 {
@@ -30,13 +32,13 @@ namespace FresherManagement.Api
         {
             services.AddSingleton(Configuration);
 
+            services.AddScoped<IIdentityService, IdentityService>();
             //User Manager Service
-            services.AddIdentityDbContext(Configuration);
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddIdentityDbContext(Configuration);
             services.AddPersistenceDbContext(Configuration);
             services.AddRepositories();
             services.AddApplicationServices();

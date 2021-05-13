@@ -1,0 +1,11 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
+using Application.Domain.Entities;
+
+namespace Application.Core.Interfaces.Services
+{
+    public interface ITokenClaimService
+    {
+        Task<JwtSecurityToken> GetTokenAsync(ApplicationUser user);
+    }
+}

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ardalis.GuardClauses;
+using FresherManagement.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FresherManagement.Api.Controllers.v1
@@ -21,5 +22,18 @@ namespace FresherManagement.Api.Controllers.v1
                 return _mediator;
             }
         }
+
+        private IIdentityService _identityService;
+
+        protected IIdentityService IdentityService
+        {
+            get
+            {
+                _identityService ??= Guard.Against.Null(HttpContext.RequestServices.GetService<IIdentityService>(), nameof(IdentityService));
+                return _identityService;
+            }
+        }
+
+        protected string CurrentUser => IdentityService?.GetUserIdentity();
     }
 }

@@ -1,19 +1,21 @@
-﻿using Application.Core.Interfaces.CQRS;
+﻿using System;
 using MediatR;
 
 namespace Application.Core.Commands.Account.ConfirmEmail
 {
-    public class ConfirmEmailCommand : IRequest<bool>, ICommand<bool>
+    public class ConfirmEmailCommand : Command<Unit>, IRequest<Unit>
     {
-        public string UserName { get; set; }
-        public string Code { get; set; }
+        public string UserName { get; private init; }
+        public string Code { get; private init; }
 
-        public static ConfirmEmailCommand CreateCommandFromInput(string userName, string code)
+        public static ConfirmEmailCommand CreateFromInput(string userName, string code, string createdBy)
         {
             return new ConfirmEmailCommand
             {
                 UserName = userName,
-                Code = code
+                Code = code,
+                CreatedDate = DateTimeOffset.Now,
+                CreatedBy = createdBy
             };
         }
     }
