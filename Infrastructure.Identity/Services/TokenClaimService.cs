@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Common.Guard;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +28,7 @@ namespace Infrastructure.Identity.Services
             _jwtSettings = Guard.Null(jwtOptions.Value, nameof(jwtOptions));
         }
 
-        public async Task<JwtSecurityToken> GetTokenAsync(ApplicationUser user)
+        public async Task<JwtSecurityToken> GenerateTokenAsync(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
@@ -52,6 +53,19 @@ namespace Infrastructure.Identity.Services
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 signingCredentials: signingCredentials);
             return jwtSecurityToken;
+        }
+
+        public RefreshToken GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var generator = new RNGCryptoServiceProvider();
+            generator.GetBytes(randomNumber);
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(randomNumber),
+                Expires = DateTime.UtcNow.AddDays(_jwtSettings.RefreshTokenExpires),
+                CreatedDate = DateTime.UtcNow
+            };
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Application.Core.DTOs.Account
+namespace Application.Core.DTOs.Role
 {
     public class CreateRolesRequest
     {

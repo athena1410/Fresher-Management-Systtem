@@ -1,9 +1,10 @@
 ﻿using Application.Core.Interfaces.CQRS;
 using System;
+using MediatR;
 
 namespace Application.Core.Commands
 {
-    public class Command<T> : ICommand<T>
+    public class Command<T> : ICommand<T>, IRequest<T>
     {
         private Guid _id;
 
@@ -19,7 +20,7 @@ namespace Application.Core.Commands
             }
         }
 
-        public DateTimeOffset CreatedDate { get; set; }
-        public string CreatedBy { get; set; }
+        public DateTimeOffset CreatedDate { get; protected set; }
+        public string CreatedBy { get; protected set; }
     }
 }

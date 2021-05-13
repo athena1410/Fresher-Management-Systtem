@@ -7,6 +7,6 @@ namespace Application.Domain.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public virtual List<RefreshToken> RefreshTokens { get; set; }
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
     }
 }

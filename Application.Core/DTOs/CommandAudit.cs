@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Application.Domain.Entities
+namespace Application.Core.DTOs
 {
     public class CommandAudit
     {

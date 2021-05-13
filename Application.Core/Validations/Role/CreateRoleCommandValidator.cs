@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using Application.Core.Commands.Account.Role;
-using Application.Core.Enums;
+﻿using Application.Core.Commands.Role.CreateRole;
 using FluentValidation;
+using System;
+using System.Linq;
 
-namespace Application.Core.Validations.Account
+namespace Application.Core.Validations.Role
 {
     public class CreateRoleCommandValidator : AbstractValidator<CreateRoleCommand>
     {
@@ -20,7 +19,7 @@ namespace Application.Core.Validations.Account
                 .WithMessage("UserName should contain at least 6 characters.");
 
             RuleFor(x => x.Roles)
-                .Must(x => x.All(inputRole => Enum.GetNames(typeof(Roles)).Any(role => role == inputRole)))
+                .Must(x => x.All(inputRole => Enum.GetNames(typeof(Enums.Role)).Any(role => role == inputRole)))
                 .WithMessage($"One or more role is invalid.");
         }
     }

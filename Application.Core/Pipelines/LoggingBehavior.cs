@@ -1,6 +1,5 @@
 ﻿using Application.Core.Commands;
 using Application.Core.Extensions;
-using Application.Domain.Entities;
 using Common.Guard;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -8,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core.DTOs;
 
 namespace Application.Core.Pipelines
 {

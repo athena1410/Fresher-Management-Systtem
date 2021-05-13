@@ -6,6 +6,7 @@ namespace Application.Core.Interfaces.Services
 {
     public interface ITokenClaimService
     {
-        Task<JwtSecurityToken> GetTokenAsync(ApplicationUser user);
+        Task<JwtSecurityToken> GenerateTokenAsync(ApplicationUser user);
+        RefreshToken GenerateRefreshToken();
     }
 }

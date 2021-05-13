@@ -1,19 +1,22 @@
+using System.IdentityModel.Tokens.Jwt;
 using Application.Core;
 using Application.Domain.Entities;
 using FresherManagement.Api.Infrastructures;
 using FresherManagement.Api.Services;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Context;
-using Infrastructure.Identity.Settings;
 using Infrastructure.Persistence;
 using Infrastructure.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using System.Net;
 using System.Text.Json;
 
 namespace FresherManagement.Api
@@ -30,8 +33,13 @@ namespace FresherManagement.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(Configuration);
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
 
+            services.AddSingleton(Configuration);
             services.AddScoped<IIdentityService, IdentityService>();
             //User Manager Service
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -39,12 +47,12 @@ namespace FresherManagement.Api
                 .AddDefaultTokenProviders();
 
             services.AddIdentityDbContext(Configuration);
+            services.AddJwtAuthentication(Configuration);
             services.AddPersistenceDbContext(Configuration);
             services.AddRepositories();
             services.AddApplicationServices();
             services.AddCustomApiVersioning();
             services.AddCustomSwagger();
-
             services.AddExternalServices();
             services.AddCustomCors(Configuration);
 
@@ -72,13 +80,18 @@ namespace FresherManagement.Api
 
             app.UseForwardedHeaders();
             app.UseDefaultFiles();
-            //app.UseSerilogRequestLogging();
+            app.UseSerilogRequestLogging();
             app.UseCustomSwagger(provider);
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseCors();
+
+            // Fix JwtRegisteredClaimNames.Sub not mapping to 'sub'
+            // https://github.com/IdentityServer/IdentityServer4/issues/2968
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -1,16 +1,18 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using Application.Core.Commands.Account.ConfirmEmail;
+﻿using Application.Core.Commands.Account.ConfirmEmail;
 using Application.Core.Commands.Account.Login;
+using Application.Core.Commands.Account.RefreshToken;
 using Application.Core.Commands.Account.Register;
-using Application.Core.Commands.Account.Role;
 using Application.Core.DTOs.Account;
-using Application.Core.Enums;
 using Common.Guard;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using Application.Core.Commands.Account.RevokeToken;
 
 namespace FresherManagement.Api.Controllers.v1
 {
@@ -36,8 +38,7 @@ namespace FresherManagement.Api.Controllers.v1
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequestDto request)
         {
             var command = RegisterCommand.CreateFromInput(request, CurrentUser);
-            await Mediator.Send(command);
-            return Ok();
+            return Ok(await Mediator.Send(command));
         }
 
         /// <summary>
@@ -65,27 +66,67 @@ namespace FresherManagement.Api.Controllers.v1
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [SwaggerOperation(Description = "Login", OperationId = "login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDto request)
+        public async Task<IActionResult> LoginAsync([FromBody] IdentityRequestDto request)
         {
             var command = LoginCommand.CreateFromInput(request, CurrentUser);
-            return Ok(await Mediator.Send(command));
+            var result = await Mediator.Send(command);
+            if (!string.IsNullOrEmpty(result.RefreshToken))
+            {
+                SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenExpiration);
+            }
+            return Ok(result);
         }
 
         /// <summary>
-        /// Create new roles for user
+        /// Refresh Token
         /// </summary>
-        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("role")]
-        [Authorize(Roles = nameof(Roles.User))]
+        [HttpPost("refresh-token")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        [SwaggerOperation(Description = "Add Role For User", OperationId = "role")]
-        public async Task<IActionResult> CreateRolesAsync([FromBody] CreateRolesRequest request)
+        [SwaggerOperation(Description = "Use refresh token to get new access token", OperationId = "refresh-token")]
+        public async Task<IActionResult> RefreshTokenAsync()
         {
-            var command = CreateRoleCommand.CreateFromInput(request, CurrentUser);
+            var refreshToken = Request.Cookies["refresh-token"];
+            var command = RefreshTokenCommand.CreateFromInput(refreshToken, CurrentUser);
+            IdentityResponseDto result = await Mediator.Send(command);
+            if (!string.IsNullOrEmpty(result.RefreshToken))
+            {
+                SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenExpiration);
+            }
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Revoke Token
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("revoke-token")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [SwaggerOperation(Description = "Revoking A Refresh Token", OperationId = "revoke-token")]
+        public async Task<IActionResult> RevokeTokenAsync([FromBody] RevokeTokenRequestDto request)
+        {
+            var token = string.IsNullOrEmpty(request.Token)
+                ? Request.Cookies["refresh-token"]
+                : HttpUtility.UrlDecode(request.Token);
+
+            var command = RevokeTokenCommand.CreateFromInput(token, CurrentUser);
             return Ok(await Mediator.Send(command));
+        }
+
+        private void SetRefreshTokenInCookie(string refreshToken, DateTimeOffset expires)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                Expires = expires,
+            };
+            Response.Cookies.Append("refresh-token", refreshToken, cookieOptions);
         }
     }
 }

@@ -16,13 +16,13 @@ namespace Infrastructure.Identity.DataSeed
         public DataSeeder(IServiceProvider service)
         {
             _userManager = service.GetService<UserManager<ApplicationUser>>();
-            _roleManager = service.GetService<RoleManager<IdentityRole>>(); 
+            _roleManager = service.GetService<RoleManager<IdentityRole>>();
         }
 
         public async Task SeedAsync()
         {
-            // Seed Roles
-            foreach (var role in Enum.GetNames(typeof(Roles)))
+            // Seed Role
+            foreach (var role in Enum.GetNames(typeof(Role)))
             {
                 if (await _roleManager.RoleExistsAsync(role))
                 {
@@ -44,8 +44,12 @@ namespace Infrastructure.Identity.DataSeed
                     FirstName = "Toan",
                     LastName = "Ha"
                 };
-                await _userManager.CreateAsync(admin, "Yennhi@123456");
-                await _userManager.AddToRoleAsync(admin, Roles.Administrator.ToString());
+                var roles = new[]
+                    {Role.Administrator.ToString(), Role.Manager.ToString(), Role.ClassAdmin.ToString()};
+                await _userManager.CreateAsync(admin, "Athena@123456");
+                await _userManager.AddToRolesAsync(admin, roles);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(admin);
+                await _userManager.ConfirmEmailAsync(admin, code);
             }
         }
     }

@@ -19,7 +19,7 @@ namespace FresherManagement.Api.Controllers.v2
         /// <response code="200">Returns list of candidate</response>
         /// <response code="400">Noway, just for demonstration</response>
         [HttpGet]
-        [Authorize(Roles = nameof(Roles.ClassAdmin))]
+        [Authorize(Roles = nameof(Role.ClassAdmin))]
         [SwaggerOperation(Description = "List Catalog Brands 123")]
         public async Task<IActionResult> Index()
         {

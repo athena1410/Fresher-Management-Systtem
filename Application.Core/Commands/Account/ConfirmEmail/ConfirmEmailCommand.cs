@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.Core.Commands.Account.ConfirmEmail
 {
-    public class ConfirmEmailCommand : Command<Unit>, IRequest<Unit>
+    public class ConfirmEmailCommand : Command<Unit>
     {
         public string UserName { get; private init; }
         public string Code { get; private init; }
@@ -14,7 +14,7 @@ namespace Application.Core.Commands.Account.ConfirmEmail
             {
                 UserName = userName,
                 Code = code,
-                CreatedDate = DateTimeOffset.Now,
+                CreatedDate = DateTimeOffset.UtcNow,
                 CreatedBy = createdBy
             };
         }

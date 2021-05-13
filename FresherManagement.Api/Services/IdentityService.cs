@@ -1,5 +1,7 @@
 ﻿using Common.Guard;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Serilog;
 
 namespace FresherManagement.Api.Services
 {
@@ -14,7 +16,8 @@ namespace FresherManagement.Api.Services
 
         public string GetUserIdentity()
         {
-            return _context.HttpContext?.User.FindFirst("sub")?.Value ?? "AnonymousUser";
+            var result = _context.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Sub);
+            return _context.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value ?? "AnonymousUser";
         }
     }
 }

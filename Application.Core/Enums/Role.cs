@@ -1,6 +1,6 @@
 ﻿namespace Application.Core.Enums
 {
-    public enum Roles
+    public enum Role
     {
         User = 1,
         ClassAdmin = 2,

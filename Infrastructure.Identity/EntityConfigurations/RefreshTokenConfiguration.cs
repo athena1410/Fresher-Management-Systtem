@@ -11,6 +11,9 @@ namespace Infrastructure.Identity.EntityConfigurations
             builder.ToTable("RefreshTokens");
 
             builder.HasKey(x => x.Id);
+            builder.HasOne(x => x.ApplicationUser)
+                .WithMany(x => x.RefreshTokens)
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

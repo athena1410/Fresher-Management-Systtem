@@ -54,7 +54,7 @@ namespace Application.Core.Commands.Account.Register
 
             if (!result.Succeeded) throw new DomainException(result.ToString());
 
-            await _userManager.AddToRoleAsync(user, Roles.User.ToString());
+            await _userManager.AddToRoleAsync(user, Enums.Role.User.ToString());
             string confirmCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             _logger.LogInformation($"Generated confirm code : {confirmCode} with user {request.UserName}");

@@ -27,9 +27,23 @@ namespace Infrastructure.Identity
                     b => b.MigrationsAssembly(typeof(IdentityContext).Assembly.GetName().Name));
             });
 
-            var jwtConfigurationSection = configuration.GetSection(AppSettings.JWT_SETTINGS_SECTION);
+            services.AddScoped(typeof(DbContext), typeof(IdentityContext));
+            services.AddTransient<ITokenClaimService, TokenClaimService>();
+            services.AddScoped<IDataSeeder, DataSeeder>();
+            var dataSeeder = services.BuildServiceProvider().GetService<IDataSeeder>();
+            if (dataSeeder != null)
+            {
+                Task.Run(async () => await dataSeeder.SeedAsync());
+            }
+            return services;
+        }
+
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            IConfigurationSection jwtConfigurationSection = configuration.GetSection(AppSettings.JWT_SETTINGS_SECTION);
             services.Configure<JWTSettings>(jwtConfigurationSection);
-            JWTSettings jwtSettings = jwtConfigurationSection.Get<JWTSettings>();
+            var jwtSettings = jwtConfigurationSection.Get<JWTSettings>();
             //Adding Authentication - JWT
             services.AddAuthentication(options =>
                 {
@@ -53,14 +67,6 @@ namespace Infrastructure.Identity
                     };
                 });
 
-            services.AddScoped(typeof(DbContext), typeof(IdentityContext));
-            services.AddTransient<ITokenClaimService, TokenClaimService>();
-            services.AddScoped<IDataSeeder, DataSeeder>();
-            var dataSeeder = services.BuildServiceProvider().GetService<IDataSeeder>();
-            if (dataSeeder != null)
-            {
-                Task.Run(async () => await dataSeeder.SeedAsync());
-            }
             return services;
         }
     }

@@ -2,11 +2,11 @@
 {
     public enum LoginStatus
     {
-        Success,
-        NotExisted,
-        EmailNotConfirmed,
-        LockedOut,
-        RequiresTwoFactorAuthentication,
-        Failure
+        Success = 1,
+        NotExisted = 0,
+        EmailNotConfirmed = -1,
+        LockedOut = -2,
+        RequiresTwoFactorAuthentication = -3,
+        Failure = -4
     }
 }
