@@ -1,13 +1,15 @@
-using System;
-using System.IdentityModel.Tokens.Jwt;
 using Application.Core;
+using Application.Core.Constants;
 using Application.Domain.Entities;
 using FresherManagement.Api.Infrastructures;
+using FresherManagement.Api.Infrastructures.Mappings;
 using FresherManagement.Api.Services;
+using FresherManagement.Api.SignalR;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Context;
 using Infrastructure.Persistence;
 using Infrastructure.Shared;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -17,10 +19,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
-using FresherManagement.Api.Infrastructures.Mappings;
 
 namespace FresherManagement.Api
 {
@@ -59,6 +61,8 @@ namespace FresherManagement.Api
             services.AddExternalServices();
             services.AddCustomCors(Configuration);
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddSignalR();
 
             // Configure enforce lowercase routing
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -90,7 +94,7 @@ namespace FresherManagement.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors();
+            app.UseCors(AppSettings.CORS_POLICY);
 
             // Fix JwtRegisteredClaimNames.Sub not mapping to 'sub'
             // https://github.com/IdentityServer/IdentityServer4/issues/2968
@@ -102,6 +106,7 @@ namespace FresherManagement.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<AccountEventsClientHub>("/account-events");
             });
         }
     }

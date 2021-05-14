@@ -14,9 +14,9 @@ namespace Application.Core.Events.Account.Register
             _logger = logger;
         }
 
-        public Task Handle(RegisteredEvent notification, CancellationToken cancellationToken)
+        public Task Handle(RegisteredEvent @event, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"User with name {notification.UserName} has registered success.");
+            _logger.LogInformation($"User with name {@event.UserName} has registered success.");
             return Task.CompletedTask;
         }
     }

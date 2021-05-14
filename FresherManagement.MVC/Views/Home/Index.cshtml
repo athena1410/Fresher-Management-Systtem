@@ -1,8 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+<script type="text/javascript">
+    $(document).ready(() => {
+        var connection = new signalR.HubConnectionBuilder()
+            .configureLogging(signalR.LogLevel.Debug)
+            .withUrl("https://localhost:44332/account-events", {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            }).build(); 
+        connection.start().catch(err => console.error(err.toString()));
+        connection.on("welcome", function (message) { 
+            alert(message);
+        });
+    });
+</script>

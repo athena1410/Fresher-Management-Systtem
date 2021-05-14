@@ -14,9 +14,9 @@ namespace Application.Core.Events.Account.Login
             _logger = logger;
         }
 
-        public Task Handle(LoginSuccessEvent notification, CancellationToken cancellationToken)
+        public Task Handle(LoginSuccessEvent @event, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"User with name {notification.UserName} has login success.");
+            _logger.LogInformation($"User with name {@event.UserName} has login success.");
             return Task.CompletedTask;
         }
     }

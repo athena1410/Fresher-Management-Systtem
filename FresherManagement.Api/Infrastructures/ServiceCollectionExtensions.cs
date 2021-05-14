@@ -1,4 +1,7 @@
-﻿using FresherManagement.Api.Infrastructures.Swagger;
+﻿using Application.Core.Constants;
+using FresherManagement.Api.Infrastructures.Swagger;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -7,8 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace FresherManagement.Api.Infrastructures
 {
@@ -90,8 +91,8 @@ namespace FresherManagement.Api.Infrastructures
         {
             services.AddCors(options =>
             {
-                var corsPolicy = configuration["CorsPolicy:AccessUrls"].Split(',');
-                options.AddPolicy("AccessUrl", builder => builder.WithOrigins(corsPolicy)
+                var corsPolicy = configuration[$"{AppSettings.CORS_POLICY}:{AppSettings.ACCESS_URLS}"].Split(',');
+                options.AddPolicy(AppSettings.CORS_POLICY, builder => builder.WithOrigins(corsPolicy)
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
                     .WithMethods("GET", "POST", "DELETE", "OPTIONS")
                     .AllowCredentials()
