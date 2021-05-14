@@ -1,4 +1,5 @@
-﻿using Application.Core.DTOs.Account;
+﻿using System;
+using Application.Core.DTOs.Account;
 using Application.Core.Enums;
 using Application.Core.Extensions;
 using Application.Core.Interfaces.Services;
@@ -11,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core.Events.Account.Login;
 
 namespace Application.Core.Commands.Account.Login
 {
@@ -18,15 +20,18 @@ namespace Application.Core.Commands.Account.Login
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ITokenClaimService _tokenClaimService;
+        private readonly IMediator _mediator;
         private readonly ILogger<LoginCommandHandler> _logger;
 
         public LoginCommandHandler(
             UserManager<ApplicationUser> userManager,
             ITokenClaimService tokenClaimService,
+            IMediator mediator,
             ILogger<LoginCommandHandler> logger)
         {
             this._userManager = Guard.Null(userManager, nameof(userManager));
             this._tokenClaimService = Guard.Null(tokenClaimService, nameof(tokenClaimService));
+            this._mediator = Guard.Null(mediator, nameof(mediator));
             this._logger = Guard.Null(logger, nameof(logger));
         }
 
@@ -74,6 +79,13 @@ namespace Application.Core.Commands.Account.Login
                 response.RefreshTokenExpiration = activeRefreshToken.Expires;
 
                 _logger.LogInformation($"User {user.UserName} login success.");
+
+                await _mediator.Publish(new LoginSuccessEvent
+                {
+                    UserName = user.UserName,
+                    LoginSuccessAt = DateTimeOffset.UtcNow
+                }, cancellationToken);
+
                 return response;
             }
 

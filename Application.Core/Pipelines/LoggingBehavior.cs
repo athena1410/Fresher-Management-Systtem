@@ -53,7 +53,7 @@ namespace Application.Core.Pipelines
             finally
             {
                 _logger.LogInformation(@$"[Handle {commandAudit.Name}]: 
-                    Info={JsonConvert.SerializeObject(commandAudit)}; Execution time={commandAudit.ExecutionTime}ms");
+                    Info={JsonConvert.SerializeObject(commandAudit)}; Execution time={commandAudit.ExecutionTime}");
             }
             return response;
         }

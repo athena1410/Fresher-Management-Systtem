@@ -1,5 +1,4 @@
 ﻿using Application.Core.DTOs.Email;
-using Application.Core.Enums;
 using Application.Core.Interfaces.Services;
 using Application.Domain.Entities;
 using Application.Domain.Exceptions;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Core.Events.Account.Register;
 
 namespace Application.Core.Commands.Account.Register
 {
@@ -19,14 +19,17 @@ namespace Application.Core.Commands.Account.Register
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterCommandHandler> _logger;
         private readonly IEmailService _emailService;
+        private readonly IMediator _mediator;
 
         public RegisterCommandHandler(
             UserManager<ApplicationUser> userManager,
             IEmailService emailService,
+            IMediator mediator,
             ILogger<RegisterCommandHandler> logger)
         {
             this._userManager = Guard.Null(userManager, nameof(userManager));
             this._emailService = Guard.Null(emailService, nameof(emailService));
+            this._mediator = Guard.Null(mediator, nameof(mediator));
             this._logger = Guard.Null(logger, nameof(logger));
         }
 
@@ -60,6 +63,13 @@ namespace Application.Core.Commands.Account.Register
             _logger.LogInformation($"Generated confirm code : {confirmCode} with user {request.UserName}");
 
             await _emailService.SendAsync(BuildConfirmEmail(user, confirmCode));
+
+            await _mediator.Publish(new RegisteredEvent
+            {
+                Email = user.Email,
+                UserName = user.UserName
+            }, cancellationToken);
+
             return Unit.Value;;
         }
 
