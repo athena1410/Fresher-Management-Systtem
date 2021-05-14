@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ardalis.GuardClauses;
+using AutoMapper;
 using FresherManagement.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +32,16 @@ namespace FresherManagement.Api.Controllers.v1
             {
                 _identityService ??= Guard.Against.Null(HttpContext.RequestServices.GetService<IIdentityService>(), nameof(IdentityService));
                 return _identityService;
+            }
+        }
+
+        private IMapper _mapper;
+        protected IMapper Mapper
+        {
+            get
+            {
+                _mapper ??= Guard.Against.Null(HttpContext.RequestServices.GetService<IMapper>(), nameof(Mapper));
+                return _mapper;
             }
         }
 

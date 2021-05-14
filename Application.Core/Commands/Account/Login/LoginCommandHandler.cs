@@ -72,10 +72,12 @@ namespace Application.Core.Commands.Account.Login
 
                 response.RefreshToken = activeRefreshToken.Token;
                 response.RefreshTokenExpiration = activeRefreshToken.Expires;
+
+                _logger.LogInformation($"User {user.UserName} login success.");
                 return response;
             }
 
-            return IdentityResponseDto.Failure($"Incorrect Credentials for user {user.UserName}."); ;
+            return IdentityResponseDto.Failure($"Incorrect Credentials for user {user.UserName}.");
         }
     }
 }

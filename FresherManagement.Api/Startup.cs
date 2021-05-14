@@ -1,3 +1,4 @@
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using Application.Core;
 using Application.Domain.Entities;
@@ -17,7 +18,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Net;
+using System.Reflection;
 using System.Text.Json;
+using FresherManagement.Api.Infrastructures.Mappings;
 
 namespace FresherManagement.Api
 {
@@ -55,6 +58,7 @@ namespace FresherManagement.Api
             services.AddCustomSwagger();
             services.AddExternalServices();
             services.AddCustomCors(Configuration);
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
             // Configure enforce lowercase routing
             services.AddRouting(options => options.LowercaseUrls = true);

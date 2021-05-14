@@ -20,7 +20,7 @@ namespace Application.Core.Commands
             }
         }
 
-        public DateTimeOffset CreatedDate { get; protected set; }
-        public string CreatedBy { get; protected set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

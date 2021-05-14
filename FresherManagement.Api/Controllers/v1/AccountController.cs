@@ -37,7 +37,7 @@ namespace FresherManagement.Api.Controllers.v1
         [SwaggerOperation(Description = "Register new user", OperationId = "register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequestDto request)
         {
-            var command = RegisterCommand.CreateFromInput(request, CurrentUser);
+            var command = Mapper.Map<RegisterCommand>(request);
             return Ok(await Mediator.Send(command));
         }
 
@@ -68,7 +68,7 @@ namespace FresherManagement.Api.Controllers.v1
         [SwaggerOperation(Description = "Login", OperationId = "login")]
         public async Task<IActionResult> LoginAsync([FromBody] IdentityRequestDto request)
         {
-            var command = LoginCommand.CreateFromInput(request, CurrentUser);
+            var command = Mapper.Map<LoginCommand>(request);
             var result = await Mediator.Send(command);
             if (!string.IsNullOrEmpty(result.RefreshToken))
             {

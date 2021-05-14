@@ -8,6 +8,7 @@ using Application.Core.Extensions;
 using Application.Core.Interfaces.CQRS;
 using Common.Guard;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Application.Core.Pipelines
 {
@@ -36,7 +37,7 @@ namespace Application.Core.Pipelines
 
             try
             {
-                var strategy = _unitOfWork.CreateExecutionStrategy();
+                IExecutionStrategy strategy = _unitOfWork.CreateExecutionStrategy();
 
                 await strategy.ExecuteAsync(async () =>
                 {
