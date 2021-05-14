@@ -19,15 +19,15 @@ namespace Application.Domain.Entities
         public int ScopeId { get; set; }
         public int PlanedTraineeNumber { get; set; }
         public float EstimateBudget { get; set; }
-        public DateTime? ExpectedStartDate { get; set; }
-        public DateTime? ExpectedEndDate { get; set; }
-        public DateTime? ActualStartDate { get; set; }
-        public DateTime? ActualEndDate { get; set; }
+        public DateTimeOffset? ExpectedStartDate { get; set; }
+        public DateTimeOffset? ExpectedEndDate { get; set; }
+        public DateTimeOffset? ActualStartDate { get; set; }
+        public DateTimeOffset? ActualEndDate { get; set; }
 
 
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
 
         public virtual Location Location { get; set; }

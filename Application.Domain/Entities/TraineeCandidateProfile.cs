@@ -9,9 +9,9 @@ namespace Application.Domain.Entities
         public int UniversityId { get; set; }
         public int FacultyId { get; set; }
         public string FullName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTimeOffset DateOfBirth { get; set; }
         public short Gender { get; set; }
-        public DateTime? GraduationDate { get; set; }
+        public DateTimeOffset? GraduationDate { get; set; }
         [Phone]
         public string Phone { get; set; }
         [EmailAddress]
@@ -24,9 +24,9 @@ namespace Application.Domain.Entities
         public string History { get; set; }
         public string Remarks { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
 
         public virtual Candidate Candidate { get; set; }

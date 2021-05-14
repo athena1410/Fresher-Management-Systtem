@@ -10,9 +10,9 @@ namespace Application.Domain.Entities
         public int Result { get; set; }
         public string Comments { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
 
 

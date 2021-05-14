@@ -8,7 +8,7 @@ namespace Application.Domain.Entities
         public int TrainerId { get; set; }
         public string FullName { get; set; }
         public string Account { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTimeOffset DateOfBirth { get; set; }
         public short Gender { get; set; }
         public string Unit { get; set; }
         public string Major { get; set; }
@@ -18,9 +18,9 @@ namespace Application.Domain.Entities
         public string Email { get; set; }
         public string Experience { get; set; }
         public string Remark { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }
 
         public virtual Trainer Trainer { get; set; }
