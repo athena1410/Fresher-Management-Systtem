@@ -1,7 +1,5 @@
 ﻿using Application.Core.Interfaces;
 using Application.Core.Interfaces.Repositories;
-using Application.Domain.Entities;
-using Ardalis.Specification;
 using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -23,12 +21,14 @@ namespace Infrastructure.Persistence
             });
 
             services.AddScoped(typeof(IUnitOfWork), typeof(ApplicationContext));
+            services.AddScoped<IApplicationContext, ApplicationContext>();
             return services;
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<ICandidateRepository, CandidateRepository>();
+            services.AddScoped<IOfferRepository, OfferRepository>();
             return services;
         }
     }

@@ -10,7 +10,7 @@ using Application.Domain.Entities;
 
 namespace Infrastructure.Persistence.Context
 {
-    public class ApplicationContext : DbContext, IUnitOfWork
+    public class ApplicationContext : DbContext, IUnitOfWork, IApplicationContext
     {
         public const string DEFAULT_SCHEMA = "dbo";
         private IDbContextTransaction _currentTransaction;

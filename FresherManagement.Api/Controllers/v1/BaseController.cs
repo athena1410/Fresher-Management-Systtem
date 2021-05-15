@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 namespace FresherManagement.Api.Controllers.v1
 {
     [ApiController]
-    [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
     public class BaseController : ControllerBase

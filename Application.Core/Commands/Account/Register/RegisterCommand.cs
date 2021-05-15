@@ -10,7 +10,7 @@ namespace Application.Core.Commands.Account.Register
         public string UserName { get; private init; }
         public string Password { get; private init; }
 
-        public static RegisterCommand CreateFromInput(RegisterRequestDto request, string createdBy)
+        public static RegisterCommand CreateFromInput(RegisterDto request, string createdBy)
         {
             return new RegisterCommand
             {

@@ -6,7 +6,7 @@ namespace Infrastructure.Shared.Email
 {
     public class EmailService : IEmailService
     {
-        public async Task<bool> SendAsync(EmailMessage emailMessage)
+        public async Task<bool> SendAsync(EmailMessageDto emailMessage)
         {
             // TODO: Implement with real email provider
             return await Task.FromResult(true);

@@ -4,14 +4,16 @@ using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210514151409_update-offer-entity")]
+    partial class updateofferentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,8 +40,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -50,8 +52,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
@@ -77,8 +79,8 @@ namespace Infrastructure.Persistence.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset?>("ApplicationDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ApplicationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ChannelId")
                         .HasColumnType("int");
@@ -86,8 +88,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -98,8 +100,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("OfferId")
                         .HasColumnType("int");
@@ -168,11 +170,11 @@ namespace Infrastructure.Persistence.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset?>("ActualEndDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ActualEndDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset?>("ActualStartDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ActualStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("BudgetId")
                         .HasColumnType("int");
@@ -193,8 +195,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("DeliveryTypeId")
                         .HasColumnType("int");
@@ -205,11 +207,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<float>("EstimateBudget")
                         .HasColumnType("real");
 
-                    b.Property<DateTimeOffset?>("ExpectedEndDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ExpectedEndDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset?>("ExpectedStartDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ExpectedStartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("FormatId")
                         .HasColumnType("int");
@@ -226,8 +228,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PlanedTraineeNumber")
                         .HasColumnType("int");
@@ -284,8 +286,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("DeliveryName")
                         .IsRequired()
@@ -301,8 +303,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
@@ -337,11 +339,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset>("Date")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -358,8 +360,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -430,8 +432,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FormatTypeName")
                         .IsRequired()
@@ -447,8 +449,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
@@ -479,8 +481,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -501,8 +503,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Result")
                         .HasColumnType("int");
@@ -568,8 +570,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -583,8 +585,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("OfferSalary")
                         .HasColumnType("bigint");
@@ -618,8 +620,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -630,8 +632,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
@@ -667,8 +669,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -679,8 +681,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
@@ -714,8 +716,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -726,8 +728,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
@@ -764,8 +766,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -776,8 +778,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
@@ -814,8 +816,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -823,8 +825,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
@@ -856,11 +858,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset>("DateOfBirth")
-                        .HasColumnType("datetimeoffset")
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2")
                         .HasColumnName("DOB");
 
                     b.Property<string>("Email")
@@ -883,8 +885,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<short>("Gender")
                         .HasColumnType("smallint");
 
-                    b.Property<DateTimeOffset?>("GraduationDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("GraduationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("History")
                         .HasColumnType("nvarchar(max)");
@@ -908,8 +910,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -961,8 +963,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -973,8 +975,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
@@ -1011,11 +1013,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("CreatedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTimeOffset>("DateOfBirth")
-                        .HasColumnType("datetimeoffset")
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2")
                         .HasColumnName("DOB");
 
                     b.Property<string>("Email")
@@ -1047,8 +1049,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset?>("ModifiedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
                         .IsRequired()

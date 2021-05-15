@@ -53,6 +53,7 @@ namespace FresherManagement.Api
 
             services.AddIdentityDbContext(Configuration);
             services.AddJwtAuthentication(Configuration);
+            services.AddAuthorization();
             services.AddPersistenceDbContext(Configuration);
             services.AddRepositories();
             services.AddApplicationServices();
@@ -98,7 +99,7 @@ namespace FresherManagement.Api
 
             // Fix JwtRegisteredClaimNames.Sub not mapping to 'sub'
             // https://github.com/IdentityServer/IdentityServer4/issues/2968
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             app.UseAuthentication();
             app.UseAuthorization();

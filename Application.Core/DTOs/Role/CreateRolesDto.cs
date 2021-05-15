@@ -2,7 +2,7 @@
 
 namespace Application.Core.DTOs.Role
 {
-    public class CreateRolesRequest
+    public class CreateRolesDto
     {
         public string UserName { get; set; }
         public List<string> Roles { get; set; }

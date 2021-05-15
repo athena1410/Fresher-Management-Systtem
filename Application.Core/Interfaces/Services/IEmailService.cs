@@ -5,6 +5,6 @@ namespace Application.Core.Interfaces.Services
 {
     public interface IEmailService
     {
-        Task<bool> SendAsync(EmailMessage emailMessage);
+        Task<bool> SendAsync(EmailMessageDto emailMessage);
     }
 }

@@ -8,7 +8,7 @@ namespace Application.Core.Commands.Account.Login
         public string UserName { get; private init; }
         public string Password { get; private init; }
 
-        public static LoginCommand CreateFromInput(IdentityRequestDto request, string createdBy)
+        public static LoginCommand CreateFromInput(IdentityDto request, string createdBy)
         {
             return new LoginCommand
             {

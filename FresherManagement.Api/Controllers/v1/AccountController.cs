@@ -35,7 +35,7 @@ namespace FresherManagement.Api.Controllers.v1
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [SwaggerOperation(Description = "Register new user", OperationId = "register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegisterRequestDto request)
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterDto request)
         {
             var command = Mapper.Map<RegisterCommand>(request);
             return Ok(await Mediator.Send(command));
@@ -66,7 +66,7 @@ namespace FresherManagement.Api.Controllers.v1
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [SwaggerOperation(Description = "Login", OperationId = "login")]
-        public async Task<IActionResult> LoginAsync([FromBody] IdentityRequestDto request)
+        public async Task<IActionResult> LoginAsync([FromBody] IdentityDto request)
         {
             var command = Mapper.Map<LoginCommand>(request);
             var result = await Mediator.Send(command);
@@ -108,7 +108,7 @@ namespace FresherManagement.Api.Controllers.v1
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [SwaggerOperation(Description = "Revoking A Refresh Token", OperationId = "revoke-token")]
-        public async Task<IActionResult> RevokeTokenAsync([FromBody] RevokeTokenRequestDto request)
+        public async Task<IActionResult> RevokeTokenAsync([FromBody] RevokeTokenDto request)
         {
             var token = string.IsNullOrEmpty(request.Token)
                 ? Request.Cookies["refresh-token"]

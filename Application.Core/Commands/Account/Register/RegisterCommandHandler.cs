@@ -73,11 +73,11 @@ namespace Application.Core.Commands.Account.Register
             return Unit.Value;;
         }
 
-        private EmailMessage BuildConfirmEmail(ApplicationUser user, string code)
+        private EmailMessageDto BuildConfirmEmail(ApplicationUser user, string code)
         {
             var confirmLink = BuildConfirmLink(user, code);
 
-            var mailMessage = new EmailMessage()
+            var mailMessage = new EmailMessageDto()
             {
                 From = "duytoan.mk@gmail.com",
                 Body = $"Please confirm your account by visiting this URL {confirmLink}",

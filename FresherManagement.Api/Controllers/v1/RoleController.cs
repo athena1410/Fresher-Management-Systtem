@@ -31,7 +31,7 @@ namespace FresherManagement.Api.Controllers.v1
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [SwaggerOperation(Description = "Assign Roles For User", OperationId = "role")]
-        public async Task<IActionResult> CreateRolesAsync([FromBody] CreateRolesRequest request)
+        public async Task<IActionResult> CreateRolesAsync([FromBody] CreateRolesDto request)
         {
             var command = CreateRoleCommand.CreateFromInput(request, CurrentUser);
             return Ok(await Mediator.Send(command));

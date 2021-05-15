@@ -10,7 +10,7 @@ namespace Application.Core.Commands.Role.CreateRole
         public string UserName { get; private init; }
         public List<string> Roles { get; private init; }
 
-        public static CreateRoleCommand CreateFromInput(CreateRolesRequest request, string createdBy)
+        public static CreateRoleCommand CreateFromInput(CreateRolesDto request, string createdBy)
             => new CreateRoleCommand
             {
                 UserName = request.UserName,

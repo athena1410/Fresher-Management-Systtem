@@ -1,0 +1,97 @@
+﻿using Application.Core.Commands.Offers.CreateOffer;
+using Application.Core.Constants;
+using Application.Core.DTOs.Offers;
+using Application.Core.Queries;
+using FresherManagement.Api.Attributes;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using Application.Core.Commands.Offers.UpdateOffer;
+using Application.Core.Queries.Offers;
+
+namespace FresherManagement.Api.Controllers.v1
+{
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class OfferController : BaseController
+    {
+        /// <summary>
+        /// Create New Offer.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [AuthorizeRoles(Role.ADMINISTRATOR, Role.MANAGER)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [SwaggerOperation(Description = "Create New Offer.", OperationId = "CreateOffer")]
+        public async Task<IActionResult> CreateAsync([FromBody] CreateOfferDto request)
+        {
+            var command = Mapper.Map<CreateOfferCommand>(request);
+            return Ok(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// Update Offer.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [SwaggerOperation(Description = "Update Offer.", OperationId = "UpdateOffer")]
+        public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateOfferDto request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest();
+            }
+
+            var command = Mapper.Map<UpdateOfferCommand>(request);
+            return Ok(await Mediator.Send(command));
+        }
+
+        /// <summary>
+        /// Get All Offers.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [SwaggerOperation(Description = "Get All Offers.", OperationId = "GetOffers")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await Mediator.Send(new Query<List<OfferDto>>()));
+        }
+
+        /// <summary>
+        /// Get Offer By Id.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [SwaggerOperation(Description = "Get Offer By Id.", OperationId = "GetOfferById")]
+        public async Task<IActionResult> Get(int id)
+        {
+            return Ok(await Mediator.Send(new GetByIdQuery<int, OfferDto>(id)));
+        }
+
+        /// <summary>
+        /// Get offers with paging.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("search")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [SwaggerOperation(Description = "Search Offers With Paging", OperationId = "GetOffersWithPaginationFilter")]
+        public async Task<IActionResult> GetWithPaging([FromBody] GetOffersWithPaginationFilterQuery request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+    }
+}

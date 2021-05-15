@@ -1,6 +1,6 @@
 ﻿namespace Application.Core.DTOs.Email
 {
-    public class EmailMessage
+    public class EmailMessageDto
     {
         public string From { get; set; }
         public string To { get; set; }
