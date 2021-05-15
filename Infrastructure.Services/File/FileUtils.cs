@@ -26,9 +26,10 @@ namespace Infrastructure.Shared.File
 
         public static string GenerateUniqueFileName(IFormFile file)
         {
-            var fileExtension = Path.GetExtension(file.FileName);
+            var fileName = Path.GetFileNameWithoutExtension(file.FileName);
+            var extension = Path.GetExtension(file.FileName);
 
-            return $"{file.FileName?.Replace($"{fileExtension}", string.Empty)}-{Guid.NewGuid()}{fileExtension}";
+            return $"{fileName}-{Guid.NewGuid()}{extension}";
         }
     }
 }
