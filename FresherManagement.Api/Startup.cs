@@ -20,9 +20,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
 
 namespace FresherManagement.Api
 {
@@ -64,6 +67,7 @@ namespace FresherManagement.Api
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddSignalR();
+            services.AddConfigureFormOption();
 
             // Configure enforce lowercase routing
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -88,7 +92,11 @@ namespace FresherManagement.Api
             }
 
             app.UseForwardedHeaders();
-            app.UseDefaultFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), Constants.FolderPath.ASSETS)),
+                RequestPath = new PathString($"/{Constants.FolderPath.ASSETS}")
+            });
             app.UseSerilogRequestLogging();
             app.UseCustomSwagger(provider);
 

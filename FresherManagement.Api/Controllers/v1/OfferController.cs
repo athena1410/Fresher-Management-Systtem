@@ -1,15 +1,15 @@
 ﻿using Application.Core.Commands.Offers.CreateOffer;
+using Application.Core.Commands.Offers.UpdateOffer;
 using Application.Core.Constants;
 using Application.Core.DTOs.Offers;
 using Application.Core.Queries;
+using Application.Core.Queries.Offers;
 using FresherManagement.Api.Attributes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
-using Application.Core.Commands.Offers.UpdateOffer;
-using Application.Core.Queries.Offers;
 
 namespace FresherManagement.Api.Controllers.v1
 {
@@ -22,9 +22,8 @@ namespace FresherManagement.Api.Controllers.v1
         /// <returns></returns>
         [HttpPost]
         [AuthorizeRoles(Role.ADMINISTRATOR, Role.MANAGER)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(Description = "Create New Offer.", OperationId = "CreateOffer")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateOfferDto request)
         {
@@ -37,9 +36,9 @@ namespace FresherManagement.Api.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpPut("{id:int}")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(Description = "Update Offer.", OperationId = "UpdateOffer")]
         public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateOfferDto request)
         {
@@ -57,9 +56,7 @@ namespace FresherManagement.Api.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [SwaggerOperation(Description = "Get All Offers.", OperationId = "GetOffers")]
         public async Task<IActionResult> Get()
         {
@@ -71,13 +68,17 @@ namespace FresherManagement.Api.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpGet("{id:int}")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(Description = "Get Offer By Id.", OperationId = "GetOfferById")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await Mediator.Send(new GetByIdQuery<int, OfferDto>(id)));
+            OfferDto result = await Mediator.Send(new GetByIdQuery<int, OfferDto>(id));
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
 
         /// <summary>
@@ -85,9 +86,8 @@ namespace FresherManagement.Api.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpPost("search")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(Description = "Search Offers With Paging", OperationId = "GetOffersWithPaginationFilter")]
         public async Task<IActionResult> GetWithPaging([FromBody] GetOffersWithPaginationFilterQuery request)
         {

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace FresherManagement.Api.Infrastructures
 {
@@ -97,6 +98,17 @@ namespace FresherManagement.Api.Infrastructures
                     .WithMethods("GET", "POST", "DELETE", "OPTIONS")
                     .AllowCredentials()
                     .AllowAnyHeader());
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddConfigureFormOption(this IServiceCollection services)
+        {
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
             });
 
             return services;

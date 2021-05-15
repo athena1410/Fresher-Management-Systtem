@@ -1,5 +1,6 @@
 ﻿using Application.Core.Interfaces.Services;
 using Infrastructure.Shared.Email;
+using Infrastructure.Shared.File;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Shared
@@ -9,6 +10,7 @@ namespace Infrastructure.Shared
         public static IServiceCollection AddExternalServices(this IServiceCollection services)
         {
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IFileService, FileService>();
 
             return services;
         }
