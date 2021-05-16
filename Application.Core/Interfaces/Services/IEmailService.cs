@@ -1,4 +1,4 @@
-﻿using Application.Core.DTOs.Email;
+﻿using Application.Core.DTOs.Emails;
 using System.Threading.Tasks;
 
 namespace Application.Core.Interfaces.Services

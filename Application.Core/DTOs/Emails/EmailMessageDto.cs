@@ -1,4 +1,4 @@
-﻿namespace Application.Core.DTOs.Email
+﻿namespace Application.Core.DTOs.Emails
 {
     public class EmailMessageDto
     {

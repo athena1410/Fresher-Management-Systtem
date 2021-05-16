@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Shared.File
+namespace Infrastructure.Shared.Files
 {
     public class FileService : IFileService
     {
@@ -23,14 +23,14 @@ namespace Infrastructure.Shared.File
         public async Task<bool> ExistsAsync(string path)
         {
             Guard.IsNotNullOrEmpty(path);
-            return await Task.Run(() => System.IO.File.Exists(path));
+            return await Task.Run(() => File.Exists(path));
         }
 
         public async Task<byte[]> LoadFileAsync(string path)
         {
             Guard.IsNotNullOrEmpty(path);
             Guard.FileExists(path);
-            return await System.IO.File.ReadAllBytesAsync(path);
+            return await File.ReadAllBytesAsync(path);
         }
 
         public async Task<List<SaveFileResultDto>> SaveFileAsync(string folderPath, List<IFormFile> files)
@@ -74,7 +74,7 @@ namespace Infrastructure.Shared.File
         {
             Guard.IsNotNullOrEmpty(path);
             Guard.FileExists(path);
-            await Task.Run(() => System.IO.File.Delete(path));
+            await Task.Run(() => File.Delete(path));
         }
     }
 }

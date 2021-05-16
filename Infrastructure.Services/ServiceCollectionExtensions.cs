@@ -1,6 +1,6 @@
 ﻿using Application.Core.Interfaces.Services;
-using Infrastructure.Shared.Email;
-using Infrastructure.Shared.File;
+using Infrastructure.Shared.Emails;
+using Infrastructure.Shared.Files;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Shared

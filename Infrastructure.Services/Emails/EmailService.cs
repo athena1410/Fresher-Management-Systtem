@@ -1,8 +1,8 @@
-﻿using Application.Core.DTOs.Email;
+﻿using Application.Core.DTOs.Emails;
 using Application.Core.Interfaces.Services;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Shared.Email
+namespace Infrastructure.Shared.Emails
 {
     public class EmailService : IEmailService
     {

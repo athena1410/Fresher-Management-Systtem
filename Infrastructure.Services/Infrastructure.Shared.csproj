@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Application.Core\Application.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Caches\" />
+  </ItemGroup>
+
 </Project>

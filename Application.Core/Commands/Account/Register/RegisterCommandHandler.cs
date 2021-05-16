@@ -1,4 +1,4 @@
-﻿using Application.Core.DTOs.Email;
+﻿using Application.Core.DTOs.Emails;
 using Application.Core.Interfaces.Services;
 using Application.Domain.Entities;
 using Application.Domain.Exceptions;

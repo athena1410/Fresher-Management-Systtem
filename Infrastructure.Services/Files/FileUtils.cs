@@ -3,7 +3,7 @@ using Application.Core.Constants;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 
-namespace Infrastructure.Shared.File
+namespace Infrastructure.Shared.Files
 {
     public class FileUtils
     {
