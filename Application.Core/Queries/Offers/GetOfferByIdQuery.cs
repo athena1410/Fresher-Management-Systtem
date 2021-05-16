@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 
 namespace Application.Core.Queries.Offers
 {
@@ -25,8 +26,9 @@ namespace Application.Core.Queries.Offers
 
         public async Task<OfferDto> Handle(GetByIdQuery<int, OfferDto> request, CancellationToken cancellationToken)
         {
-            var query = _context.Offers.Where(x => x.Id == request.Id && !x.IsDeleted);
-            return await _mapper.ProjectTo<OfferDto>(query).SingleOrDefaultAsync(cancellationToken);
+            var query = _context.Offers.Where(x => x.Id == request.Id && !x.IsDeleted)
+                .ProjectTo<OfferDto>(_mapper.ConfigurationProvider);
+            return await query.SingleOrDefaultAsync(cancellationToken);
         }
     }
 }

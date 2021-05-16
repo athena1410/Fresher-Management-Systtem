@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 
 namespace Application.Core.Queries.Offers
 {
@@ -51,7 +52,9 @@ namespace Application.Core.Queries.Offers
                 query = query.Sort(request.Sort);
             }
 
-            return await _mapper.ProjectTo<OfferDto>(query).PaginateAsync(request, cancellationToken);
+            return await query
+                .ProjectTo<OfferDto>(_mapper.ConfigurationProvider)
+                .PaginateAsync(request, cancellationToken);
         }
     }
 }

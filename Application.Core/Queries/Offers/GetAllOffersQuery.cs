@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 
 namespace Application.Core.Queries.Offers
 {
@@ -26,8 +27,9 @@ namespace Application.Core.Queries.Offers
 
         public async Task<List<OfferDto>> Handle(Query<List<OfferDto>> request, CancellationToken cancellationToken)
         {
-            var query = _context.Offers.Where(x => !x.IsDeleted);
-            return await _mapper.ProjectTo<OfferDto>(query).ToListAsync(cancellationToken);
+            var query = _context.Offers.Where(x => !x.IsDeleted)
+                .ProjectTo<OfferDto>(_mapper.ConfigurationProvider);
+            return await query.ToListAsync(cancellationToken);
         }
     }
 }

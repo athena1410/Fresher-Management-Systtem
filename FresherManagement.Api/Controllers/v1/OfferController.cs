@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FresherManagement.Api.Controllers.v1
 {
@@ -21,7 +22,7 @@ namespace FresherManagement.Api.Controllers.v1
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AuthorizeRoles(Role.ADMINISTRATOR, Role.MANAGER)]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [SwaggerOperation(Description = "Create New Offer.", OperationId = "CreateOffer")]
