@@ -20,6 +20,19 @@ namespace Infrastructure.Shared.File
             _logger = Guard.Null(logger, nameof(logger));
         }
 
+        public async Task<bool> ExistsAsync(string path)
+        {
+            Guard.IsNotNullOrEmpty(path);
+            return await Task.Run(() => System.IO.File.Exists(path));
+        }
+
+        public async Task<byte[]> LoadFileAsync(string path)
+        {
+            Guard.IsNotNullOrEmpty(path);
+            Guard.FileExists(path);
+            return await System.IO.File.ReadAllBytesAsync(path);
+        }
+
         public async Task<List<SaveFileResultDto>> SaveFileAsync(string folderPath, List<IFormFile> files)
         {
             if (files == null || !files.Any() )
@@ -55,6 +68,13 @@ namespace Infrastructure.Shared.File
             }
 
             return result;
+        }
+
+        public async Task DeleteFileAsync(string path)
+        {
+            Guard.IsNotNullOrEmpty(path);
+            Guard.FileExists(path);
+            await Task.Run(() => System.IO.File.Delete(path));
         }
     }
 }

@@ -45,48 +45,48 @@ namespace FresherManagement.Api.Controllers.v1
         /// <summary>
         /// Download file by file path.
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="path">File Path.</param>
         /// <returns></returns>
-        [HttpGet("{filePath}")]
+        [HttpGet("{path}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(Description = "Download File By Path.", OperationId = "DownloadFileByPath")]
-        public async Task<ActionResult> DownloadAsync(string filePath)
+        public async Task<ActionResult> DownloadAsync(string path)
         {
             // validation and get the file
-            if (!System.IO.File.Exists(filePath))
+            if (!await _fileService.ExistsAsync(path))
             {
                 return NotFound("File not existed.");
             }
 
             var provider = new FileExtensionContentTypeProvider();
-            if (!provider.TryGetContentType(filePath, out var contentType))
+            if (!provider.TryGetContentType(path, out var contentType))
             {
                 contentType = "application/octet-stream";
             }
 
-            var bytes = await System.IO.File.ReadAllBytesAsync(filePath);
-            return File(bytes, contentType, Path.GetFileName(filePath));
+            var bytes = await _fileService.LoadFileAsync(path);
+            return File(bytes, contentType, Path.GetFileName(path));
         }
 
         /// <summary>
         /// Delete file by file path.
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="path">File Path.</param>
         /// <returns></returns>
-        [HttpDelete("{filePath}")]
+        [HttpDelete("{path}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [SwaggerOperation(Description = "Delete File By Path.", OperationId = "DeleteFileByPath")]
-        public async Task<ActionResult> DeleteAsync(string filePath)
+        public async Task<ActionResult> DeleteAsync(string path)
         {
             // validation the file
-            if (!System.IO.File.Exists(filePath))
+            if (!await _fileService.ExistsAsync(path))
             {
                 return NotFound("File not existed.");
             }
 
-            await Task.Run(() => System.IO.File.Delete(filePath));
+            await _fileService.DeleteFileAsync(path);
             return Ok();
         }
     }

@@ -14,7 +14,17 @@ namespace Common.Guard
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentException($"Value can't be null or white space.");
+                throw new ArgumentException($"{parameterName} can't be null or white space.");
+            }
+
+            return value;
+        }
+
+        public static string IsNotNullOrEmpty(string value, string parameterName = default)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException($"{parameterName} can't be null or empty.");
             }
 
             return value;
