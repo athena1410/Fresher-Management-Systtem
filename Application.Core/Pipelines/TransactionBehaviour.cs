@@ -20,8 +20,8 @@ namespace Application.Core.Pipelines
         public TransactionBehaviour(IUnitOfWork unitOfWork,
             ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
         {
-            _unitOfWork = Guard.Null(unitOfWork, nameof(unitOfWork));
-            _logger = Guard.Null(logger, nameof(logger));
+            _unitOfWork = Guard.NotNull(unitOfWork, nameof(unitOfWork));
+            _logger = Guard.NotNull(logger, nameof(logger));
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

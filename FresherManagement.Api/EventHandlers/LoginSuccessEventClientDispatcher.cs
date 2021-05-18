@@ -18,7 +18,7 @@ namespace FresherManagement.Api.EventHandlers
             IHubContext<AccountEventsClientHub> hubContext,
             ILogger<LoginSuccessEventClientDispatcher> logger)
         {
-            _hubContext = Guard.Null(hubContext, nameof(hubContext));
+            _hubContext = Guard.NotNull(hubContext, nameof(hubContext));
             _logger = logger;
         }
 

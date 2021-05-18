@@ -22,7 +22,7 @@ namespace FresherManagement.Api.Controllers.v1
 
         public AccountController(ILogger<AccountController> logger)
         {
-            _logger = Guard.Null(logger, nameof(logger));
+            _logger = Guard.NotNull(logger, nameof(logger));
         }
 
         /// <summary>

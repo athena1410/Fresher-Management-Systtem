@@ -20,8 +20,8 @@ namespace Application.Core.Queries.Offers
             IApplicationContext context,
             IMapper mapper)
         {
-            _context = Guard.Null(context, nameof(context));
-            _mapper = Guard.Null(mapper, nameof(mapper));
+            _context = Guard.NotNull(context, nameof(context));
+            _mapper = Guard.NotNull(mapper, nameof(mapper));
         }
 
         public async Task<OfferDto> Handle(GetByIdQuery<int, OfferDto> request, CancellationToken cancellationToken)

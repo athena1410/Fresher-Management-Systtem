@@ -29,10 +29,10 @@ namespace Application.Core.Commands.Account.Login
             IMediator mediator,
             ILogger<LoginCommandHandler> logger)
         {
-            this._userManager = Guard.Null(userManager, nameof(userManager));
-            this._tokenClaimService = Guard.Null(tokenClaimService, nameof(tokenClaimService));
-            this._mediator = Guard.Null(mediator, nameof(mediator));
-            this._logger = Guard.Null(logger, nameof(logger));
+            this._userManager = Guard.NotNull(userManager, nameof(userManager));
+            this._tokenClaimService = Guard.NotNull(tokenClaimService, nameof(tokenClaimService));
+            this._mediator = Guard.NotNull(mediator, nameof(mediator));
+            this._logger = Guard.NotNull(logger, nameof(logger));
         }
 
         public async Task<IdentityResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)

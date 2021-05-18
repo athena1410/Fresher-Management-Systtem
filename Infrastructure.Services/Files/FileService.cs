@@ -17,7 +17,7 @@ namespace Infrastructure.Shared.Files
 
         public FileService(ILogger<FileService> logger)
         {
-            _logger = Guard.Null(logger, nameof(logger));
+            _logger = Guard.NotNull(logger, nameof(logger));
         }
 
         public async Task<bool> ExistsAsync(string path)

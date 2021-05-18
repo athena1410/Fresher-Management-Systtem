@@ -27,10 +27,10 @@ namespace Application.Core.Commands.Account.Register
             IMediator mediator,
             ILogger<RegisterCommandHandler> logger)
         {
-            this._userManager = Guard.Null(userManager, nameof(userManager));
-            this._emailService = Guard.Null(emailService, nameof(emailService));
-            this._mediator = Guard.Null(mediator, nameof(mediator));
-            this._logger = Guard.Null(logger, nameof(logger));
+            this._userManager = Guard.NotNull(userManager, nameof(userManager));
+            this._emailService = Guard.NotNull(emailService, nameof(emailService));
+            this._mediator = Guard.NotNull(mediator, nameof(mediator));
+            this._logger = Guard.NotNull(logger, nameof(logger));
         }
 
         public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)

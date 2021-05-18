@@ -23,8 +23,8 @@ namespace Application.Core.Commands.Account.RefreshToken
             UserManager<ApplicationUser> userManager,
         ITokenClaimService tokenClaimService)
         {
-            _userManager = Guard.Null(userManager, nameof(userManager));
-            _tokenClaimService = Guard.Null(tokenClaimService, nameof(tokenClaimService));
+            _userManager = Guard.NotNull(userManager, nameof(userManager));
+            _tokenClaimService = Guard.NotNull(tokenClaimService, nameof(tokenClaimService));
         }
 
         public async Task<IdentityResponseDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)

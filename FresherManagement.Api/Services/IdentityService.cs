@@ -10,7 +10,7 @@ namespace FresherManagement.Api.Services
 
         public IdentityService(IHttpContextAccessor context)
         {
-            _context = Guard.Null(context, nameof(context));
+            _context = Guard.NotNull(context, nameof(context));
         }
 
         public string GetUserIdentity()

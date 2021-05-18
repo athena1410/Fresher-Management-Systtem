@@ -24,8 +24,8 @@ namespace Infrastructure.Identity.Services
             UserManager<ApplicationUser> userManager,
             IOptions<JWTSettings> jwtOptions)
         {
-            _userManager = Guard.Null(userManager, nameof(userManager));
-            _jwtSettings = Guard.Null(jwtOptions.Value, nameof(jwtOptions));
+            _userManager = Guard.NotNull(userManager, nameof(userManager));
+            _jwtSettings = Guard.NotNull(jwtOptions.Value, nameof(jwtOptions));
         }
 
         public async Task<JwtSecurityToken> GenerateTokenAsync(ApplicationUser user)

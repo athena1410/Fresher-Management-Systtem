@@ -18,7 +18,7 @@ namespace FresherManagement.Api.Controllers.v1
         private readonly IFileService _fileService;
         public FileController(IFileService fileService)
         {
-            _fileService = Guard.Null(fileService, nameof(fileService));
+            _fileService = Guard.NotNull(fileService, nameof(fileService));
         }
 
         /// <summary>

@@ -18,8 +18,8 @@ namespace Application.Core.Commands.Account.ConfirmEmail
             UserManager<ApplicationUser> userManager,
             ILogger<ConfirmEmailCommandHandler> logger)
         {
-            this._userManager = Guard.Null(userManager, nameof(userManager));
-            this._logger = Guard.Null(logger, nameof(logger));
+            this._userManager = Guard.NotNull(userManager, nameof(userManager));
+            this._logger = Guard.NotNull(logger, nameof(logger));
         }
 
         public async Task<Unit> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)

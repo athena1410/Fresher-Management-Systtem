@@ -19,8 +19,8 @@ namespace Application.Core.Commands.Role.CreateRole
             UserManager<ApplicationUser> userManager,
             ILogger<CreateRoleCommandHandler> logger)
         {
-            _userManager = Guard.Null(userManager, nameof(userManager));
-            _logger = Guard.Null(logger, nameof(logger));
+            _userManager = Guard.NotNull(userManager, nameof(userManager));
+            _logger = Guard.NotNull(logger, nameof(logger));
         }
 
         public async Task<Unit> Handle(CreateRoleCommand request, CancellationToken cancellationToken)

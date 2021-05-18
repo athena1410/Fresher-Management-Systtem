@@ -17,8 +17,8 @@ namespace Application.Core.Commands.Offers.CreateOffer
             IOfferRepository offerRepository,
             IMapper mapper)
         {
-            _offerRepository = Guard.Null(offerRepository, nameof(offerRepository));
-            _mapper = Guard.Null(mapper, nameof(mapper));
+            _offerRepository = Guard.NotNull(offerRepository, nameof(offerRepository));
+            _mapper = Guard.NotNull(mapper, nameof(mapper));
         }
 
         public async Task<Unit> Handle(CreateOfferCommand request, CancellationToken cancellationToken)
