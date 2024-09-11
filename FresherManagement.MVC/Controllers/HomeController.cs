@@ -1,22 +1,13 @@
 ﻿using FresherManagement.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FresherManagement.MVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+        private readonly ILogger<HomeController> _logger = logger;
 
         public IActionResult Index()
         {

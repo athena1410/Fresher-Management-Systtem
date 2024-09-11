@@ -21,7 +21,7 @@ namespace Application.Core.Pipelines
             _logger = Guard.NotNull(logger, nameof(logger));
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var commandTypeName = request.GetType().GetGenericTypeName();
             var commandAudit = new CommandAudit

@@ -2,7 +2,7 @@
 
 namespace Application.Core.Commands.Offers.UpdateOffer
 {
-    public class UpdateOfferCommand : Command<Unit>
+    public class UpdateOfferCommand : Command
     {
         public int OfferId { get; set; }
         public float JobRank { get; private init; }

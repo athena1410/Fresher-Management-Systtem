@@ -4,7 +4,6 @@ using Application.Core.Commands.Offers.CreateOffer;
 using Application.Core.DTOs.Account;
 using Application.Core.DTOs.Offers;
 using AutoMapper;
-using MediatR;
 
 namespace FresherManagement.Api.Infrastructures.Mappings
 {
@@ -13,13 +12,13 @@ namespace FresherManagement.Api.Infrastructures.Mappings
         public MappingProfile()
         {
             CreateMap<RegisterDto, RegisterCommand>()
-                .AfterMap<SetAuditAction<Unit>>();
+                .AfterMap<SetAuditAction>();
 
             CreateMap<IdentityDto, LoginCommand>()
                 .AfterMap<SetAuditAction<IdentityResponseDto>>();
             
             CreateMap<CreateOfferDto, CreateOfferCommand>()
-                .AfterMap<SetAuditAction<Unit>>();
+                .AfterMap<SetAuditAction>();
         }
     }
 }

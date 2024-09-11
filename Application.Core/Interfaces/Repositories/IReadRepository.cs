@@ -39,7 +39,7 @@ namespace Application.Core.Interfaces.Repositories
         Task<TEntity> GetByIdAsync<TKey>(TKey id, CancellationToken cancellationToken = default) where TKey : notnull;
 
         /// <summary>
-        /// Gets an entity with given given predicate or null if not found.
+        /// Gets an entity with given predicate or null if not found.
         /// </summary>
         /// <param name="predicate">Predicate to filter entities</param>
         /// <param name="cancellationToken"></param>
@@ -56,7 +56,7 @@ namespace Application.Core.Interfaces.Repositories
         /// The task result contains the <typeparamref name="TEntity" />, or <see langword="null"/>.
         /// </returns>
         Task<TEntity> FirstOrDefaultAsync<TSpec>(TSpec specification, CancellationToken cancellationToken = default)
-            where TSpec : ISingleResultSpecification, ISpecification<TEntity>;
+            where TSpec : ISingleResultSpecification<TEntity>, ISpecification<TEntity>;
 
         /// <summary>
         /// Finds an entity that matches the encapsulated query logic of the <paramref name="specification"/>.

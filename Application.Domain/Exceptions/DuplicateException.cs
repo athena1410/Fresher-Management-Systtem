@@ -21,9 +21,5 @@ namespace Application.Domain.Exceptions
         public DuplicateException(IEnumerable<ValidationFailure> errors) : base(errors)
         {
         }
-
-        public DuplicateException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

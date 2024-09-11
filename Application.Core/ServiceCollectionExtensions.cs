@@ -1,4 +1,5 @@
-﻿using Application.Core.Pipelines;
+﻿using Application.Core.Mappings;
+using Application.Core.Pipelines;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,9 +11,9 @@ namespace Application.Core
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

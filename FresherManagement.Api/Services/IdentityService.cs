@@ -4,14 +4,9 @@ using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace FresherManagement.Api.Services
 {
-    public class IdentityService : IIdentityService
+    public class IdentityService(IHttpContextAccessor context) : IIdentityService
     {
-        private readonly IHttpContextAccessor _context;
-
-        public IdentityService(IHttpContextAccessor context)
-        {
-            _context = Guard.NotNull(context, nameof(context));
-        }
+        private readonly IHttpContextAccessor _context = Guard.NotNull(context, nameof(context));
 
         public string GetUserIdentity()
         {

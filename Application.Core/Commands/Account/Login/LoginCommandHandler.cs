@@ -16,24 +16,17 @@ using Application.Core.Events.Account.Login;
 
 namespace Application.Core.Commands.Account.Login
 {
-    public class LoginCommandHandler : IRequestHandler<LoginCommand, IdentityResponseDto>
+    public class LoginCommandHandler(
+        UserManager<ApplicationUser> userManager,
+        ITokenClaimService tokenClaimService,
+        IMediator mediator,
+        ILogger<LoginCommandHandler> logger)
+        : IRequestHandler<LoginCommand, IdentityResponseDto>
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ITokenClaimService _tokenClaimService;
-        private readonly IMediator _mediator;
-        private readonly ILogger<LoginCommandHandler> _logger;
-
-        public LoginCommandHandler(
-            UserManager<ApplicationUser> userManager,
-            ITokenClaimService tokenClaimService,
-            IMediator mediator,
-            ILogger<LoginCommandHandler> logger)
-        {
-            this._userManager = Guard.NotNull(userManager, nameof(userManager));
-            this._tokenClaimService = Guard.NotNull(tokenClaimService, nameof(tokenClaimService));
-            this._mediator = Guard.NotNull(mediator, nameof(mediator));
-            this._logger = Guard.NotNull(logger, nameof(logger));
-        }
+        private readonly UserManager<ApplicationUser> _userManager = Guard.NotNull(userManager, nameof(userManager));
+        private readonly ITokenClaimService _tokenClaimService = Guard.NotNull(tokenClaimService, nameof(tokenClaimService));
+        private readonly IMediator _mediator = Guard.NotNull(mediator, nameof(mediator));
+        private readonly ILogger<LoginCommandHandler> _logger = Guard.NotNull(logger, nameof(logger));
 
         public async Task<IdentityResponseDto> Handle(LoginCommand request, CancellationToken cancellationToken)
         {

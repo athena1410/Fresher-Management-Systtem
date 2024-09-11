@@ -44,6 +44,6 @@ namespace FresherManagement.Api.Controllers.v1
             }
         }
 
-        protected string CurrentUser => IdentityService?.GetUserIdentity();
+        protected string CurrentUser => _identityService?.GetUserIdentity();
     }
 }

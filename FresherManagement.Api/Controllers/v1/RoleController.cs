@@ -12,14 +12,9 @@ using Role = Application.Core.Constants.Role;
 namespace FresherManagement.Api.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class RoleController : BaseController
+    public class RoleController(ILogger<RoleController> logger) : BaseController
     {
-        private readonly ILogger<RoleController> _logger;
-
-        public RoleController(ILogger<RoleController> logger)
-        {
-            _logger = Guard.NotNull(logger, nameof(logger));
-        }
+        private readonly ILogger<RoleController> _logger = Guard.NotNull(logger, nameof(logger));
 
         /// <summary>
         /// Assign new roles for user
@@ -35,7 +30,8 @@ namespace FresherManagement.Api.Controllers.v1
         public async Task<IActionResult> CreateRolesAsync([FromBody] CreateRolesDto request)
         {
             var command = CreateRoleCommand.CreateFromInput(request, CurrentUser);
-            return Ok(await Mediator.Send(command));
+            await Mediator.Send(command);
+            return Ok();
         }
     }
 }

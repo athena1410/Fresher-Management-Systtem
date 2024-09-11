@@ -2,41 +2,34 @@ using Application.Core;
 using Application.Core.Constants;
 using Application.Domain.Entities;
 using FresherManagement.Api.Infrastructures;
-using FresherManagement.Api.Infrastructures.Mappings;
 using FresherManagement.Api.Services;
 using FresherManagement.Api.SignalR;
 using Infrastructure.Identity;
 using Infrastructure.Identity.Context;
 using Infrastructure.Persistence;
 using Infrastructure.Shared;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.FileProviders;
+using FresherManagement.Api.Infrastructures.Mappings;
 
 namespace FresherManagement.Api
 {
-    public class Startup
+    public class Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; } = configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -64,10 +57,9 @@ namespace FresherManagement.Api
             services.AddCustomSwagger();
             services.AddExternalServices();
             services.AddCustomCors(Configuration);
-            services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
-            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddSignalR();
             services.AddConfigureFormOption();
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
             // Configure enforce lowercase routing
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -104,10 +96,6 @@ namespace FresherManagement.Api
 
             app.UseRouting();
             app.UseCors(AppSettings.CORS_POLICY);
-
-            // Fix JwtRegisteredClaimNames.Sub not mapping to 'sub'
-            // https://github.com/IdentityServer/IdentityServer4/issues/2968
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             app.UseAuthentication();
             app.UseAuthorization();

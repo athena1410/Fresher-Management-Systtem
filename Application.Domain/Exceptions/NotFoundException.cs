@@ -1,6 +1,5 @@
 ﻿using FluentValidation.Results;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Application.Domain.Exceptions
 {
@@ -19,10 +18,6 @@ namespace Application.Domain.Exceptions
         }
 
         public NotFoundException(IEnumerable<ValidationFailure> errors) : base(errors)
-        {
-        }
-
-        public NotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

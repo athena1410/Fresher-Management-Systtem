@@ -5,35 +5,28 @@ using Application.Domain.Exceptions;
 using Common.Guard;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Core.Events.Account.Register;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace Application.Core.Commands.Account.Register
 {
-    public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Unit>
+    public class RegisterCommandHandler(
+        UserManager<ApplicationUser> userManager,
+        IEmailService emailService,
+        IMediator mediator,
+        ILogger<RegisterCommandHandler> logger)
+        : IRequestHandler<RegisterCommand>
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<RegisterCommandHandler> _logger;
-        private readonly IEmailService _emailService;
-        private readonly IMediator _mediator;
+        private readonly UserManager<ApplicationUser> _userManager = Guard.NotNull(userManager, nameof(userManager));
+        private readonly ILogger<RegisterCommandHandler> _logger = Guard.NotNull(logger, nameof(logger));
+        private readonly IEmailService _emailService = Guard.NotNull(emailService, nameof(emailService));
+        private readonly IMediator _mediator = Guard.NotNull(mediator, nameof(mediator));
 
-        public RegisterCommandHandler(
-            UserManager<ApplicationUser> userManager,
-            IEmailService emailService,
-            IMediator mediator,
-            ILogger<RegisterCommandHandler> logger)
-        {
-            this._userManager = Guard.NotNull(userManager, nameof(userManager));
-            this._emailService = Guard.NotNull(emailService, nameof(emailService));
-            this._mediator = Guard.NotNull(mediator, nameof(mediator));
-            this._logger = Guard.NotNull(logger, nameof(logger));
-        }
-
-        public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
+        public async Task Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             ApplicationUser userWithEmail = await _userManager.FindByEmailAsync(request.Email);
             if (userWithEmail != null)
@@ -69,8 +62,6 @@ namespace Application.Core.Commands.Account.Register
                 Email = user.Email,
                 UserName = user.UserName
             }, cancellationToken);
-
-            return Unit.Value;;
         }
 
         private EmailMessageDto BuildConfirmEmail(ApplicationUser user, string code)

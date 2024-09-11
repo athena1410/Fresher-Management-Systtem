@@ -12,18 +12,12 @@ using AutoMapper.QueryableExtensions;
 
 namespace Application.Core.Queries.Offers
 {
-    public class GetOffersQueryHandler :IRequestHandler<Query<List<OfferDto>>, List<OfferDto>>
+    public class GetOffersQueryHandler(
+        IApplicationContext context,
+        IMapper mapper) : IRequestHandler<Query<List<OfferDto>>, List<OfferDto>>
     {
-        private readonly IApplicationContext _context;
-        private readonly IMapper _mapper;
-
-        public GetOffersQueryHandler(
-            IApplicationContext context, 
-            IMapper mapper)
-        {
-            _context = Guard.NotNull(context, nameof(context));
-            _mapper = Guard.NotNull(mapper, nameof(mapper));
-        }
+        private readonly IApplicationContext _context = Guard.NotNull(context, nameof(context));
+        private readonly IMapper _mapper = Guard.NotNull(mapper, nameof(mapper));
 
         public async Task<List<OfferDto>> Handle(Query<List<OfferDto>> request, CancellationToken cancellationToken)
         {

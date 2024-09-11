@@ -1,16 +1,14 @@
 ﻿using Application.Core.Commands.Offers.CreateOffer;
 using Application.Core.Commands.Offers.UpdateOffer;
-using Application.Core.Constants;
 using Application.Core.DTOs.Offers;
 using Application.Core.Queries;
 using Application.Core.Queries.Offers;
-using FresherManagement.Api.Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 
 namespace FresherManagement.Api.Controllers.v1
 {
@@ -29,7 +27,8 @@ namespace FresherManagement.Api.Controllers.v1
         public async Task<IActionResult> CreateAsync([FromBody] CreateOfferDto request)
         {
             var command = Mapper.Map<CreateOfferCommand>(request);
-            return Ok(await Mediator.Send(command));
+            await Mediator.Send(command);
+            return Ok();
         }
 
         /// <summary>
@@ -49,7 +48,8 @@ namespace FresherManagement.Api.Controllers.v1
             }
 
             var command = Mapper.Map<UpdateOfferCommand>(request);
-            return Ok(await Mediator.Send(command));
+            await Mediator.Send(command);
+            return Ok();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace FresherManagement.Api.Controllers.v1
         [SwaggerOperation(Description = "Get Offer By Id.", OperationId = "GetOfferById")]
         public async Task<IActionResult> Get(int id)
         {
-            OfferDto result = await Mediator.Send(new GetByIdQuery<int, OfferDto>(id));
+            var result = await Mediator.Send(new GetByIdQuery<int, OfferDto>(id));
             if (result == null)
             {
                 return NotFound();

@@ -16,14 +16,9 @@ using System.Web;
 namespace FresherManagement.Api.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class AccountController : BaseController
+    public class AccountController(ILogger<AccountController> logger) : BaseController
     {
-        private readonly ILogger<AccountController> _logger;
-
-        public AccountController(ILogger<AccountController> logger)
-        {
-            _logger = Guard.NotNull(logger, nameof(logger));
-        }
+        private readonly ILogger<AccountController> _logger = Guard.NotNull(logger, nameof(logger));
 
         /// <summary>
         /// Register new user
@@ -37,7 +32,8 @@ namespace FresherManagement.Api.Controllers.v1
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterDto request)
         {
             var command = Mapper.Map<RegisterCommand>(request);
-            return Ok(await Mediator.Send(command));
+            await Mediator.Send(command);
+            return Ok();
         }
 
         /// <summary>
@@ -52,7 +48,8 @@ namespace FresherManagement.Api.Controllers.v1
         public async Task<IActionResult> ConfirmEmailAsync([FromQuery] string userName, [FromQuery] string code)
         {
             var command = ConfirmEmailCommand.CreateFromInput(userName, code, CurrentUser);
-            return Ok(await Mediator.Send(command));
+            await Mediator.Send(command);
+            return Ok();
         }
 
         /// <summary>
@@ -89,7 +86,7 @@ namespace FresherManagement.Api.Controllers.v1
         {
             var refreshToken = Request.Cookies["refresh-token"];
             var command = RefreshTokenCommand.CreateFromInput(refreshToken, CurrentUser);
-            IdentityResponseDto result = await Mediator.Send(command);
+            var result = await Mediator.Send(command);
             if (!string.IsNullOrEmpty(result.RefreshToken))
             {
                 SetRefreshTokenInCookie(result.RefreshToken, result.RefreshTokenExpiration);

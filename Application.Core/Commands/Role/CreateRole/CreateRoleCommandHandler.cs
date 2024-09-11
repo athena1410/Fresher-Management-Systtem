@@ -11,17 +11,12 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Commands.Role.CreateRole
 {
-    public class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Unit>
+    public class CreateRoleCommandHandler(
+        UserManager<ApplicationUser> userManager,
+        ILogger<CreateRoleCommandHandler> logger) : IRequestHandler<CreateRoleCommand, Unit>
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<CreateRoleCommandHandler> _logger;
-        public CreateRoleCommandHandler(
-            UserManager<ApplicationUser> userManager,
-            ILogger<CreateRoleCommandHandler> logger)
-        {
-            _userManager = Guard.NotNull(userManager, nameof(userManager));
-            _logger = Guard.NotNull(logger, nameof(logger));
-        }
+        private readonly UserManager<ApplicationUser> _userManager = Guard.NotNull(userManager, nameof(userManager));
+        private readonly ILogger<CreateRoleCommandHandler> _logger = Guard.NotNull(logger, nameof(logger));
 
         public async Task<Unit> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
         {

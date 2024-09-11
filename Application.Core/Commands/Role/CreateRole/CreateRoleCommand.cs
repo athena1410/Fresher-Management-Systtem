@@ -5,7 +5,7 @@ using Application.Core.DTOs.Role;
 
 namespace Application.Core.Commands.Role.CreateRole
 {
-    public class CreateRoleCommand : Command<Unit>, IRequest<Unit>
+    public class CreateRoleCommand : Command<Unit>
     {
         public string UserName { get; private init; }
         public List<string> Roles { get; private init; }

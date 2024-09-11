@@ -1,5 +1,4 @@
 ﻿using Application.Core.Extensions;
-using Application.Core.Interfaces.Services;
 using Application.Domain.Entities;
 using Application.Domain.Exceptions;
 using Common.Guard;
@@ -12,18 +11,11 @@ using System.Threading.Tasks;
 
 namespace Application.Core.Commands.Account.RevokeToken
 {
-    public class RevokeTokenCommandHandler : IRequestHandler<RevokeTokenCommand, Unit>
+    public class RevokeTokenCommandHandler(
+        UserManager<ApplicationUser> userManager)
+        : IRequestHandler<RevokeTokenCommand, Unit>
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ITokenClaimService _tokenClaimService;
-
-        public RevokeTokenCommandHandler(
-            UserManager<ApplicationUser> userManager,
-        ITokenClaimService tokenClaimService)
-        {
-            _userManager = Guard.NotNull(userManager, nameof(userManager));
-            _tokenClaimService = Guard.NotNull(tokenClaimService, nameof(tokenClaimService));
-        }
+        private readonly UserManager<ApplicationUser> _userManager = Guard.NotNull(userManager, nameof(userManager));
 
         public async Task<Unit> Handle(RevokeTokenCommand request, CancellationToken cancellationToken)
         {

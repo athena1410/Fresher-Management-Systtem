@@ -1,7 +1,7 @@
 ﻿using Application.Core.DTOs.Files;
-using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Core.Interfaces.Services
 {

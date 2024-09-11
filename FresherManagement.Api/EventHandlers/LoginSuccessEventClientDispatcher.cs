@@ -9,18 +9,13 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace FresherManagement.Api.EventHandlers
 {
-    public class LoginSuccessEventClientDispatcher : INotificationHandler<LoginSuccessEvent>
+    public class LoginSuccessEventClientDispatcher(
+        IHubContext<AccountEventsClientHub> hubContext,
+        ILogger<LoginSuccessEventClientDispatcher> logger)
+        : INotificationHandler<LoginSuccessEvent>
     {
-        private readonly IHubContext<AccountEventsClientHub> _hubContext;
-        private readonly ILogger<LoginSuccessEventClientDispatcher> _logger;
-
-        public LoginSuccessEventClientDispatcher(
-            IHubContext<AccountEventsClientHub> hubContext,
-            ILogger<LoginSuccessEventClientDispatcher> logger)
-        {
-            _hubContext = Guard.NotNull(hubContext, nameof(hubContext));
-            _logger = logger;
-        }
+        private readonly IHubContext<AccountEventsClientHub> _hubContext = Guard.NotNull(hubContext, nameof(hubContext));
+        private readonly ILogger<LoginSuccessEventClientDispatcher> _logger = logger;
 
         public async Task Handle(LoginSuccessEvent @event, CancellationToken cancellationToken)
         {

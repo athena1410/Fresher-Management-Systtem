@@ -24,7 +24,7 @@ namespace Application.Core.Pipelines
             _logger = Guard.NotNull(logger, nameof(logger));
         }
 
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             // No need create transaction for query or has current transaction
             if (_unitOfWork.HasActiveTransaction || request is not ICommand)

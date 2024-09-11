@@ -1,5 +1,4 @@
 ﻿using Application.Core.Interfaces.Repositories;
-using Application.Domain.Entities;
 using AutoMapper;
 using Common.Guard;
 using MediatR;
@@ -9,22 +8,16 @@ using Application.Domain.Exceptions;
 
 namespace Application.Core.Commands.Offers.UpdateOffer
 {
-    public class UpdateOfferCommandHandler : IRequestHandler<UpdateOfferCommand>
+    public class UpdateOfferCommandHandler(
+        IOfferRepository offerRepository,
+        IMapper mapper) : IRequestHandler<UpdateOfferCommand>
     {
-        private readonly IOfferRepository _offerRepository;
-        private readonly IMapper _mapper;
+        private readonly IOfferRepository _offerRepository = Guard.NotNull(offerRepository, nameof(offerRepository));
+        private readonly IMapper _mapper = Guard.NotNull(mapper, nameof(mapper));
 
-        public UpdateOfferCommandHandler(
-            IOfferRepository offerRepository,
-            IMapper mapper)
+        public async Task Handle(UpdateOfferCommand request, CancellationToken cancellationToken)
         {
-            _offerRepository = Guard.NotNull(offerRepository, nameof(offerRepository));
-            _mapper = Guard.NotNull(mapper, nameof(mapper));
-        }
-
-        public async Task<Unit> Handle(UpdateOfferCommand request, CancellationToken cancellationToken)
-        {
-            Offer offer = await _offerRepository.GetByIdAsync(request.OfferId, cancellationToken);
+            var offer = await _offerRepository.GetByIdAsync(request.OfferId, cancellationToken);
 
             if (offer == null || offer.IsDeleted)
             {
@@ -34,7 +27,6 @@ namespace Application.Core.Commands.Offers.UpdateOffer
             _mapper.Map(request, offer);
             await _offerRepository.UpdateAsync(offer);
             await _offerRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return Unit.Value;
         }
     }
 }

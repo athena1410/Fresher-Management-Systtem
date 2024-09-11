@@ -14,26 +14,20 @@ using Application.Core.Interfaces;
 namespace Infrastructure.Persistence.Repositories
 {
     /// <inheritdoc/>
-    public abstract class Repository<TDbContext, TEntity> : IRepository<TEntity>
+    public abstract class Repository<TDbContext, TEntity>(
+        TDbContext context,
+        ISpecificationEvaluator specificationEvaluator)
+        : IRepository<TEntity>
         where TDbContext : DbContext, IUnitOfWork
         where TEntity : Entity
     {
-        private readonly TDbContext _context;
-        private readonly DbSet<TEntity> _dbSet;
-        private readonly ISpecificationEvaluator _specificationEvaluator;
-        public IUnitOfWork UnitOfWork => _context;
+        private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
+        public IUnitOfWork UnitOfWork => context;
         public IQueryable<TEntity> Table => _dbSet.AsQueryable();
 
         protected Repository(TDbContext context)
             : this(context, SpecificationEvaluator.Default)
         {
-        }
-
-        protected Repository(TDbContext context, ISpecificationEvaluator specificationEvaluator)
-        {
-            this._context = context;
-            this._dbSet = context.Set<TEntity>();
-            this._specificationEvaluator = specificationEvaluator;
         }
 
         /// <inheritdoc/>
@@ -47,14 +41,14 @@ namespace Infrastructure.Persistence.Repositories
         public virtual async Task<TKey> AddAndGetIdAsync<TKey>(TEntity entity, CancellationToken cancellationToken) where TKey : class
         {
             _dbSet.Add(entity);
-            await _context.SaveChangesAsync(cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
             return entity.Id as TKey;
         }
 
         /// <inheritdoc/>
         public virtual async Task UpdateAsync(TEntity entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
+            context.Entry(entity).State = EntityState.Modified;
             await Task.CompletedTask;
         }
 
@@ -75,19 +69,19 @@ namespace Infrastructure.Persistence.Repositories
         /// <inheritdoc/>
         public virtual async Task<TEntity> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull
         {
-            return await _context.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
+            return await context.Set<TEntity>().FindAsync(new object[] { id }, cancellationToken);
         }
 
         /// <inheritdoc/>
         public virtual async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellationToken);
+            return await context.Set<TEntity>().FirstOrDefaultAsync(predicate, cancellationToken);
         }
 
         /// <inheritdoc/>
         public virtual async Task<TEntity> FirstOrDefaultAsync<TSpec>(TSpec specification,
-            CancellationToken cancellationToken = default) where TSpec : ISpecification<TEntity>, ISingleResultSpecification
+            CancellationToken cancellationToken = default) where TSpec : ISpecification<TEntity>, ISingleResultSpecification<TEntity>
         {
             return await ApplySpecification(specification).FirstOrDefaultAsync(cancellationToken);
         }
@@ -102,7 +96,7 @@ namespace Infrastructure.Persistence.Repositories
         /// <inheritdoc/>
         public virtual async Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Set<TEntity>().ToListAsync(cancellationToken);
+            return await context.Set<TEntity>().ToListAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -152,7 +146,7 @@ namespace Infrastructure.Persistence.Repositories
         /// <returns>The filtered entities as an <see cref="IQueryable{T}"/>.</returns>
         protected virtual IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification, bool evaluateCriteriaOnly = false)
         {
-            return _specificationEvaluator.GetQuery(_context.Set<TEntity>().AsQueryable(), specification, evaluateCriteriaOnly);
+            return specificationEvaluator.GetQuery(context.Set<TEntity>().AsQueryable(), specification, evaluateCriteriaOnly);
         }
 
         /// <summary>
@@ -170,7 +164,7 @@ namespace Infrastructure.Persistence.Repositories
             if (specification is null) throw new ArgumentNullException(nameof(specification));
             if (specification.Selector is null) throw new SelectorNotFoundException();
 
-            return _specificationEvaluator.GetQuery(_context.Set<TEntity>().AsQueryable(), specification);
+            return specificationEvaluator.GetQuery(context.Set<TEntity>().AsQueryable(), specification);
         }
     }
 }

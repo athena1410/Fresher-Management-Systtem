@@ -20,18 +20,12 @@ namespace Application.Core.Queries.Offers
         public Dictionary<string, string> Sort { get; set; }
     }
 
-    public class GetOffersWithPaginationFilterQueryHandler : IRequestHandler<GetOffersWithPaginationFilterQuery, PagedList<OfferDto>>
+    public class GetOffersWithPaginationFilterQueryHandler(
+        IApplicationContext context,
+        IMapper mapper) : IRequestHandler<GetOffersWithPaginationFilterQuery, PagedList<OfferDto>>
     {
-        private readonly IApplicationContext _context;
-        private readonly IMapper _mapper;
-
-        public GetOffersWithPaginationFilterQueryHandler(
-            IApplicationContext context,
-            IMapper mapper)
-        {
-            _context = Guard.NotNull(context, nameof(context));
-            _mapper = Guard.NotNull(mapper, nameof(mapper));
-        }
+        private readonly IApplicationContext _context = Guard.NotNull(context, nameof(context));
+        private readonly IMapper _mapper = Guard.NotNull(mapper, nameof(mapper));
 
         public async Task<PagedList<OfferDto>> Handle(GetOffersWithPaginationFilterQuery request, CancellationToken cancellationToken)
         {

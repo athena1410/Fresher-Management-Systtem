@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace Application.Domain.Exceptions
 {
@@ -20,10 +19,6 @@ namespace Application.Domain.Exceptions
         }
 
         public DomainException(IEnumerable<ValidationFailure> errors) : base(errors)
-        {
-        }
-
-        public DomainException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

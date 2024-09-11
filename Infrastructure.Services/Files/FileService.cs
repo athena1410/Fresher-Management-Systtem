@@ -1,24 +1,19 @@
 ﻿using Application.Core.DTOs.Files;
 using Application.Core.Interfaces.Services;
 using Common.Guard;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Shared.Files
 {
-    public class FileService : IFileService
+    public class FileService(ILogger<FileService> logger) : IFileService
     {
-        private readonly ILogger<FileService> _logger;
-
-        public FileService(ILogger<FileService> logger)
-        {
-            _logger = Guard.NotNull(logger, nameof(logger));
-        }
+        private readonly ILogger<FileService> _logger = Guard.NotNull(logger, nameof(logger));
 
         public async Task<bool> ExistsAsync(string path)
         {

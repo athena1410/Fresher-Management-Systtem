@@ -13,13 +13,9 @@ using Microsoft.AspNetCore.StaticFiles;
 namespace FresherManagement.Api.Controllers.v1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
-    public class FileController : BaseController
+    public class FileController(IFileService fileService) : BaseController
     {
-        private readonly IFileService _fileService;
-        public FileController(IFileService fileService)
-        {
-            _fileService = Guard.NotNull(fileService, nameof(fileService));
-        }
+        private readonly IFileService _fileService = Guard.NotNull(fileService, nameof(fileService));
 
         /// <summary>
         /// Upload Multiple Files

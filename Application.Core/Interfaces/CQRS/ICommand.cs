@@ -1,10 +1,12 @@
-﻿namespace Application.Core.Interfaces.CQRS
+﻿using MediatR;
+
+namespace Application.Core.Interfaces.CQRS
 {
-    public interface ICommand
+    public interface ICommand: IRequest
     {
     }
 
-    public interface ICommand<TResult> : ICommand
+    public interface ICommand<out TResult> : IRequest<TResult>
     {
     }
 }

@@ -14,18 +14,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Application.Core.Commands.Account.RefreshToken
 {
-    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, IdentityResponseDto>
-    {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ITokenClaimService _tokenClaimService;
-
-        public RefreshTokenCommandHandler(
-            UserManager<ApplicationUser> userManager,
+    public class RefreshTokenCommandHandler(
+        UserManager<ApplicationUser> userManager,
         ITokenClaimService tokenClaimService)
-        {
-            _userManager = Guard.NotNull(userManager, nameof(userManager));
-            _tokenClaimService = Guard.NotNull(tokenClaimService, nameof(tokenClaimService));
-        }
+        : IRequestHandler<RefreshTokenCommand, IdentityResponseDto>
+    {
+        private readonly UserManager<ApplicationUser> _userManager = Guard.NotNull(userManager, nameof(userManager));
+        private readonly ITokenClaimService _tokenClaimService = Guard.NotNull(tokenClaimService, nameof(tokenClaimService));
 
         public async Task<IdentityResponseDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Core.Commands.Account.Register
 {
-    public class RegisterCommand : Command<Unit>, IRequest<Unit>
+    public class RegisterCommand : Command
     {
         public string Email { get; private init; }
         public string UserName { get; private init; }

@@ -1,5 +1,3 @@
-using System;
-
 namespace FresherManagement.MVC.Models
 {
     public class ErrorViewModel

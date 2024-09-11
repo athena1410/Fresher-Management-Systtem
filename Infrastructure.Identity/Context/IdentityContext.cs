@@ -5,13 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Identity.Context
 {
-    public class IdentityContext : IdentityDbContext<ApplicationUser>
+    public class IdentityContext(DbContextOptions<IdentityContext> options)
+        : IdentityDbContext<ApplicationUser>(options)
     {
         public const string DEFAULT_SCHEMA = "dbo";
-
-        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
-        {
-        }
 
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 

@@ -7,14 +7,10 @@ namespace Application.Core.Queries
     {
     }
 
-    public class GetByIdQuery<TKey, TResult> : IRequest<TResult> where TResult : class
+    public class GetByIdQuery<TKey, TResult>(TKey id) : IRequest<TResult>
+        where TResult : class
     {
-        public TKey Id { get; set; }
-
-        public GetByIdQuery(TKey id)
-        {
-            Id = id;
-        }
+        public TKey Id { get; set; } = id;
     }
 
     public class QueryWithPagination<TResult> : PaginationFilter, IRequest<TResult> where TResult : class

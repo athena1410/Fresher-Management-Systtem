@@ -8,16 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Identity.DataSeed
 {
-    public class DataSeeder : IDataSeeder
+    public class DataSeeder(IServiceProvider service) : IDataSeeder
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-
-        public DataSeeder(IServiceProvider service)
-        {
-            _userManager = service.GetService<UserManager<ApplicationUser>>();
-            _roleManager = service.GetService<RoleManager<IdentityRole>>();
-        }
+        private readonly UserManager<ApplicationUser> _userManager = service.GetService<UserManager<ApplicationUser>>();
+        private readonly RoleManager<IdentityRole> _roleManager = service.GetService<RoleManager<IdentityRole>>();
 
         public async Task SeedAsync()
         {

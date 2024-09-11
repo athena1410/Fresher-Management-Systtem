@@ -2,7 +2,7 @@
 
 namespace Application.Core.Commands.Offers.CreateOffer
 {
-    public class CreateOfferCommand : Command<Unit>
+    public class CreateOfferCommand : Command
     {
         public float JobRank { get; private init; }
         public int Technology { get; private init; }

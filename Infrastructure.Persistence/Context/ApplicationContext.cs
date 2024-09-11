@@ -1,16 +1,16 @@
-﻿using Application.Core.Interfaces.Repositories;
+﻿using Application.Core.Interfaces;
+using Application.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Core.Interfaces;
-using Application.Domain.Entities;
 
 namespace Infrastructure.Persistence.Context
 {
-    public class ApplicationContext : DbContext, IUnitOfWork, IApplicationContext
+    public class ApplicationContext(DbContextOptions<ApplicationContext> options)
+        : DbContext(options), IUnitOfWork, IApplicationContext
     {
         public const string DEFAULT_SCHEMA = "dbo";
         private IDbContextTransaction _currentTransaction;
@@ -18,9 +18,6 @@ namespace Infrastructure.Persistence.Context
 
         public bool HasActiveTransaction => _currentTransaction != null;
 
-
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        { }
 
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Class> Classes { get; set; }

@@ -8,25 +8,18 @@ using Application.Domain.Entities;
 
 namespace Application.Core.Commands.Offers.CreateOffer
 {
-    public class CreateOfferCommandHandler : IRequestHandler<CreateOfferCommand>
+    public class CreateOfferCommandHandler(
+        IOfferRepository offerRepository,
+        IMapper mapper) : IRequestHandler<CreateOfferCommand>
     {
-        private readonly IOfferRepository _offerRepository;
-        private readonly IMapper _mapper;
+        private readonly IOfferRepository _offerRepository = Guard.NotNull(offerRepository, nameof(offerRepository));
+        private readonly IMapper _mapper = Guard.NotNull(mapper, nameof(mapper));
 
-        public CreateOfferCommandHandler(
-            IOfferRepository offerRepository,
-            IMapper mapper)
-        {
-            _offerRepository = Guard.NotNull(offerRepository, nameof(offerRepository));
-            _mapper = Guard.NotNull(mapper, nameof(mapper));
-        }
-
-        public async Task<Unit> Handle(CreateOfferCommand request, CancellationToken cancellationToken)
+        public async Task Handle(CreateOfferCommand request, CancellationToken cancellationToken)
         {
             var offer = _mapper.Map<Offer>(request);
             await _offerRepository.AddAsync(offer);
             await _offerRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return Unit.Value;
         }
     }
 }
